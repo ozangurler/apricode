@@ -2,15 +2,22 @@ package com.apricode.omby.domain;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.validation.constraints.Size;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,15 +32,36 @@ public class User implements Entity, UserDetails
 	private Long id;
 
 	@Column(unique = true, length = 16, nullable = false)
+    @Size(min = 1, max = 60)
 	private String name;
-
-	@Column(length = 80, nullable = false)
-	private String password;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> roles = new HashSet<String>();
+	
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lawsuit")
+    private Set<UserLawsuit> lawsuits = new HashSet<UserLawsuit>();
+
+    @Size(min = 1, max = 60)
+    private String firstName;
+
+    @Size(min = 1, max = 60)
+    private String email;
+
+    @Column(length = 80, nullable = false)
+    @Size(min = 1, max = 60)
+    private String password;
 
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date createdOn;	
+	
+	
+	
+	
+	
+	
+	
 	protected User()
 	{
 		/* Reflection instantiation */
@@ -152,6 +180,46 @@ public class User implements Entity, UserDetails
 	public boolean isEnabled()
 	{
 		return true;
+	}
+
+
+	public Set<UserLawsuit> getLawsuits() {
+		return lawsuits;
+	}
+
+
+	public void setLawsuits(Set<UserLawsuit> lawsuits) {
+		this.lawsuits = lawsuits;
+	}
+
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
 	}
 
 }

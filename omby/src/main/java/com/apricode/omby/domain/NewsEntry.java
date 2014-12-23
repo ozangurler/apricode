@@ -76,4 +76,9 @@ public class NewsEntry implements Entity
 		return String.format("NewsEntry[%d, %s]", this.id, this.content);
 	}
 
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }
