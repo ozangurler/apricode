@@ -18,7 +18,7 @@
 
 	<!--
 		DATABASE SETUP 
-	 -->
+	 
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="username" value="sa" />
@@ -26,6 +26,18 @@
 		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
 		<property name="url" value="jdbc:hsqldb:mem:example" />
 	</bean>
+		
+
+-->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="username" value="ozan" />
+		<property name="password" value="tatava1" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/omby_ozan?useServerPrepStmts=false" />
+	</bean>
+
+
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -35,6 +47,7 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="generateDdl" value="true" />
 				<property name="showSql" value="true" />
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
 			</bean>
 		</property>
 	</bean>
