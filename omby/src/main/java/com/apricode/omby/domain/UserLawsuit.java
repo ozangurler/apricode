@@ -1,70 +1,68 @@
 package com.apricode.omby.domain;
-import javax.persistence.ManyToOne;
 
 
-public class UserLawsuit {
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-    public UserLawsuit() {
-    	super();
-    	System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzDEFAULT CONSTRUCTORzzzzzzzzzzzzzzzzzzzzzz");
+@Entity
+@Table
+@AssociationOverrides({
+		@AssociationOverride(name = "pk.user", joinColumns = @JoinColumn(name = "userId")),
+		@AssociationOverride(name = "pk.lawsuit", joinColumns = @JoinColumn(name = "lawsuitId")) })
+public class UserLawsuit implements java.io.Serializable {
+	    private static final long serialVersionUID = 1L;
+		private UserLawsuitId pk = new UserLawsuitId();
 		
-	}
+		private Integer status;
+		
+		
+		@EmbeddedId
+		public UserLawsuitId getPk() {
+			return pk;
+		}
+		public void setPk(UserLawsuitId pk) {
+			this.pk = pk;
+		}
+		@Transient
+		public User getUser() {
+			return getPk().getUser();
+		}
+		public void setUser(User user) {
+			getPk().setUser(user);
+		}
+		@Transient
+		public Lawsuit getLawsuit() {
+			return getPk().getLawsuit();
+		}
+		public void setLawsuit(Lawsuit lawsuit) {
+			getPk().setLawsuit(lawsuit);
+		}
+		public boolean equals(Object o) {
+			if (this == o)
+				return true;
+			if (o == null || getClass() != o.getClass())
+				return false;
 
-	/**
-     */
-    @ManyToOne
-    private Role role;
+			UserLawsuit that = (UserLawsuit) o;
 
-    /**
-     */
-    @ManyToOne
-    private User user;
+			if (getPk() != null ? !getPk().equals(that.getPk())
+					: that.getPk() != null)
+				return false;
 
-    /**
-     */
-    @ManyToOne
-    private Lawsuit lawsuit;
-    
-public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Lawsuit getLawsuit() {
-		return lawsuit;
-	}
-
-	public void setLawsuit(Lawsuit lawsuit) {
-		this.lawsuit = lawsuit;
-	}
-
-//  CODE SHOULD BE ADDED TO JPA CLASS AFTER CODE GENERATION
-  public UserLawsuit(User user,Lawsuit lawsuit, Role role) {
-	  System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX PARAMETRELI CONSTxxxxx");
-      this.setRole (role);
-      this.user = user;
-      this.lawsuit = lawsuit;
-      
-      
-    //  this.setId(new UserLawsuitId(user.getId().toString(),  lawsuit.getId().toString()) );
-    
-      
-      
-      // If User or Lawsuit  Guarantee referential integrity
-      user.getLawsuits().add(this);
-      lawsuit.getUsers().add(this);
-  }
-
-    
+			return true;
+		}
+		public int hashCode() {
+			return (getPk() != null ? getPk().hashCode() : 0);
+		}
+		public void setStatus(Integer status) {
+			this.status = status;
+		}
+		public Integer getStatus() {
+			return status;
+		}
 }

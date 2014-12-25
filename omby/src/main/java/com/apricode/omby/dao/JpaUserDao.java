@@ -46,7 +46,7 @@ public class JpaUserDao extends JpaDao<User, Long> implements UserDao
 		final CriteriaQuery<User> criteriaQuery = builder.createQuery(this.entityClass);
 
 		Root<User> root = criteriaQuery.from(this.entityClass);
-		Path<String> namePath = root.get("name");
+		Path<String> namePath = root.get("userName");
 		criteriaQuery.where(builder.equal(namePath, name));
 
 		TypedQuery<User> typedQuery = this.getEntityManager().createQuery(criteriaQuery);

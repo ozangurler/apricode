@@ -6,21 +6,21 @@ import java.util.Map;
 public class UserTransfer
 {
 
-	private final String name;
+	private final String userName;
 
 	private final Map<String, Boolean> roles;
 
 
 	public UserTransfer(String userName, Map<String, Boolean> roles)
 	{
-		this.name = userName;
+		this.userName = userName;
 		this.roles = roles;
 	}
 
 
-	public String getName()
+	public String getUserName()
 	{
-		return this.name;
+		return this.userName;
 	}
 
 

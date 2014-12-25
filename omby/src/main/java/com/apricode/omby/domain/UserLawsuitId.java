@@ -1,33 +1,52 @@
 package com.apricode.omby.domain;
-import javax.persistence.Column;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
+@Embeddable
+public class UserLawsuitId implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
+	private Lawsuit lawsuit;
+	private User user;
+	
 
-public final class UserLawsuitId {
+	public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    /**
-     */
-    @Column(name = "user_id")
-    private String userId;
+        UserLawsuitId that = (UserLawsuitId) o;
 
-    /**
-     */
-    @Column(name = "lawsuit_id")
-    private String lawsuitId;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
+        if (lawsuit != null ? !lawsuit.equals(that.lawsuit) : that.lawsuit != null)
+            return false;
 
-	public String getUserId() {
-		return userId;
+        return true;
+    }
+
+    public int hashCode() {
+        int result;
+        result = (user != null ? user.hashCode() : 0);
+        result = 31 * result + (lawsuit != null ? lawsuit.hashCode() : 0);
+        return result;
+    }
+	@ManyToOne(fetch = FetchType.LAZY) 
+	public Lawsuit getLawsuit() {
+		return lawsuit;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setLawsuit(Lawsuit lawsuit) {
+		this.lawsuit = lawsuit;
+	}
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public User getUser() {
+		return user;
 	}
 
-	public String getLawsuitId() {
-		return lawsuitId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public void setLawsuitId(String lawsuitId) {
-		this.lawsuitId = lawsuitId;
-	}
+
 }
