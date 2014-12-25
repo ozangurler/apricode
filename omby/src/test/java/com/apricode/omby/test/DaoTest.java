@@ -1,7 +1,5 @@
 package com.apricode.omby.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,10 +29,20 @@ public class DaoTest {
 	}
 
 	@Test
-	public void test() {
+	public void test1() {
 		
-		System.out.println("DAO tests starterted");
+		System.out.println("DAO1 tests starterted");
 		assert (true);
 	}
+	
+	
+	@Test
+	public void test2() {
+		
+		System.out.println("DAO2 tests starterted");
+		assert (true);
+	}
+
+	
 
 }
