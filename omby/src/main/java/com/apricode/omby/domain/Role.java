@@ -8,10 +8,10 @@ import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
 @javax.persistence.Entity
-public class Role {
+public class Role implements com.apricode.omby.domain.Entity {
+	private static final long serialVersionUID = 1L;
 
-    
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
@@ -20,9 +20,12 @@ public class Role {
     @Column(name = "version")
     private Integer version;
     	
+	public Role(String name){
+		this.name = name;
+	}
+
 	
-	
-	  public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
