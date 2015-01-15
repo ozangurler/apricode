@@ -82,7 +82,7 @@ public class DaoTest {
 	public void testCreateUserWithSuerRole() {
 		
 		String userName = "ozangurler@hotmail.com";
-		System.out.println("DAO1 testCreateUserWithoutRoles starterted");		
+		System.out.println("DAO1 testCreateUserWithSuerRole starterted");		
 		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);	
 		
@@ -100,19 +100,211 @@ public class DaoTest {
 		
 	}
 			
-	
-	
-	
-	
-	
+
 	// Insert a user with a defendant role
+	public void testCreateUserWithDefendantRole() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithDefendantRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role defendantRole = new Role("DEFENDANT");
+		this.roleDao.save(defendantRole);
+		
+		createdUser.addRole(defendantRole.getName());
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}
+				
+	
+	
+	
+	
 	// Insert a user with a follower role
+	public void testCreateUserWithFollowerRole() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithFollowerRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role followerRole = new Role("FOLLOWER");
+		this.roleDao.save(followerRole);
+		
+		createdUser.addRole(followerRole.getName());
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}	
+	
+	
+	
+	
 	// Insert a user with a attorney role
+	public void testCreateUserWithAttorneyRole() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithAttorneyRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role attorneyRole = new Role("ATTORNEY");
+		this.roleDao.save(attorneyRole);
+		
+		createdUser.addRole(attorneyRole.getName());
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}	
+		
+	
+	
+	
 	// Insert a user with a judge role
+	public void testCreateUserWithJudgeRole() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithJudgeRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role judgeRole = new Role("JUDGE");
+		this.roleDao.save(judgeRole);
+		
+		createdUser.addRole(judgeRole.getName());
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}		
+	
+	
 	// Insert a user with a jury role
+	public void testCreateUserWithJuryRole() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithJuryRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role juryRole = new Role("JURY");
+		this.roleDao.save(juryRole);
+		
+		createdUser.addRole(juryRole.getName());
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}		
+	
+	
+	
 	// Insert a user with a prosecutor role
+	public void testCreateUserWithProsecutorRole() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithProsecutorRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role prosecutorRole = new Role("PROSECUTOR");
+		this.roleDao.save(prosecutorRole);
+		
+		createdUser.addRole(prosecutorRole.getName());
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}		
+	
+	
 	// Insert a user with a witness role
+	public void testCreateUserWithWitnessRole() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role witnessRole = new Role("WITNESS");
+		this.roleDao.save(witnessRole);
+		
+		createdUser.addRole(witnessRole.getName());
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}			
+	
+	
+	
+	
+	
 	// Try to insert a user with more than one role in one lawsuit
+	public void testCreateUserWithMoreThanOneRoleInOneLawsuit() {
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);	
+		
+		Role witnessRole = new Role("WITNESS");
+		this.roleDao.save(witnessRole);
+		
+		Role attorneyRole = new Role("ATTORNEY");
+		this.roleDao.save(attorneyRole);
+		
+		
+		createdUser.addRole(witnessRole.getName());
+		createdUser.addRole(attorneyRole.getName());
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		
+	}			
+		
+	
+	
+	
+	
+	
+	
 	// Insert a lawsuit
 	// Insert many users to one lawsuit
 	// Try to insert more than one judge to one lawsuit
