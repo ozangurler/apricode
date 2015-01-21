@@ -1,4 +1,4 @@
-angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
+angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 	.config(
 		[ '$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 			
@@ -54,7 +54,7 @@ angular.module('exampleApp', ['ngRoute', 'ngCookies', 'exampleApp.services'])
 		        		var isRestCall = config.url.indexOf('rest') == 0;
 		        		if (isRestCall && angular.isDefined($rootScope.authToken)) {
 		        			var authToken = $rootScope.authToken;
-		        			if (exampleAppConfig.useAuthTokenHeader) {
+		        			if (ombyAppConfig.useAuthTokenHeader) {
 		        				config.headers['X-Auth-Token'] = authToken;
 		        			} else {
 		        				config.url = config.url + "?token=" + authToken;
@@ -167,7 +167,7 @@ function LoginController($scope, $rootScope, $location, $cookieStore, UserServic
 };
 
 
-var services = angular.module('exampleApp.services', ['ngResource']);
+var services = angular.module('ombyApp.services', ['ngResource']);
 
 services.factory('UserService', function($resource) {
 	

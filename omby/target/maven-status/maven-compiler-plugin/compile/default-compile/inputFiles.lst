@@ -1,4 +1,5 @@
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\LocalLob.java
+C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\DistributedReader.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\LocalString.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\UserLawsuitRoleActionGrade.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\rest\UnauthorizedEntryPoint.java
@@ -14,13 +15,15 @@ C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\dao\JpaNew
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\NewsEntry.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\rest\resources\NewsEntryResource.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\UserLawsuitId.java
+C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\dao\RoleDao.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\dao\Dao.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\CategoryProduct.java
+C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\dao\JpaRoleDao.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\Product.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\rest\AuthenticationTokenProcessingFilter.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\UserRoleActionGrade.java
-C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\view\JsonViews.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\Entity.java
+C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\view\JsonViews.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\domain\ActionType.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\rest\TokenUtils.java
 C:\Users\ext0282456\git\apricode\omby\src\main\java\com\apricode\omby\rest\resources\UserResource.java
