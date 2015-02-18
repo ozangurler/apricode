@@ -8,6 +8,7 @@ import com.apricode.omby.domain.NewsEntry;
 import com.apricode.omby.domain.User;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * 
  * @author Philip W. Sorst <philip@sorst.net>
  */
+@Component
 public class DataBaseInitializer
 {
 

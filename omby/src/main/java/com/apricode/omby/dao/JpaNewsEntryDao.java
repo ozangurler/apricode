@@ -10,6 +10,7 @@ import javax.persistence.criteria.Root;
 import com.apricode.omby.dao.JpaDao;
 import com.apricode.omby.domain.NewsEntry;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Philip W. Sorst <philip@sorst.net>
  */
+@Repository(value="newsEntryDao")
 public class JpaNewsEntryDao extends JpaDao<NewsEntry, Long> implements NewsEntryDao
 {
 

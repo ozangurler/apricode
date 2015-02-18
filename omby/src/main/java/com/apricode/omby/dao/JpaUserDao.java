@@ -13,9 +13,10 @@ import com.apricode.omby.domain.User;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
+@Repository(value="userDao")
 public class JpaUserDao extends JpaDao<User, Long> implements UserDao
 {
 

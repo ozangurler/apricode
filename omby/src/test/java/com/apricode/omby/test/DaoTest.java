@@ -7,18 +7,28 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.apricode.omby.dao.UserDao;
 import com.apricode.omby.dao.RoleDao;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("file:src/main/resources/context.xml")
 public class DaoTest {
+	
+	@Autowired
 	private UserDao userDao;
+	@Autowired
 	private RoleDao roleDao;
 
 
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@BeforeClass
@@ -102,6 +112,7 @@ public class DaoTest {
 			
 
 	// Insert a user with a defendant role
+	@Test
 	public void testCreateUserWithDefendantRole() {
 		
 		String userName = "ozangurler@hotmail.com";
@@ -128,6 +139,7 @@ public class DaoTest {
 	
 	
 	// Insert a user with a follower role
+	@Test
 	public void testCreateUserWithFollowerRole() {
 		
 		String userName = "ozangurler@hotmail.com";
@@ -153,6 +165,7 @@ public class DaoTest {
 	
 	
 	// Insert a user with a attorney role
+	@Test
 	public void testCreateUserWithAttorneyRole() {
 		
 		String userName = "ozangurler@hotmail.com";
@@ -178,6 +191,7 @@ public class DaoTest {
 	
 	
 	// Insert a user with a judge role
+	@Test
 	public void testCreateUserWithJudgeRole() {
 		
 		String userName = "ozangurler@hotmail.com";
@@ -201,6 +215,7 @@ public class DaoTest {
 	
 	
 	// Insert a user with a jury role
+	@Test
 	public void testCreateUserWithJuryRole() {
 		
 		String userName = "ozangurler@hotmail.com";
@@ -225,6 +240,7 @@ public class DaoTest {
 	
 	
 	// Insert a user with a prosecutor role
+	@Test
 	public void testCreateUserWithProsecutorRole() {
 		
 		String userName = "ozangurler@hotmail.com";
@@ -248,6 +264,7 @@ public class DaoTest {
 	
 	
 	// Insert a user with a witness role
+	@Test
 	public void testCreateUserWithWitnessRole() {
 		
 		String userName = "ozangurler@hotmail.com";
@@ -274,6 +291,7 @@ public class DaoTest {
 	
 	
 	// Try to insert a user with more than one role in one lawsuit
+	@Test
 	public void testCreateUserWithMoreThanOneRoleInOneLawsuit() {
 		
 		String userName = "ozangurler@hotmail.com";

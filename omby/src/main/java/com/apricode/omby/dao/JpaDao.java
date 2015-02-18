@@ -21,10 +21,18 @@ public class JpaDao<T extends Entity, I> implements Dao<T, I>
 	protected Class<T> entityClass;
 
 
+	public JpaDao() {
+		super();
+	}	
+	
+	
 	public JpaDao(Class<T> entityClass)
 	{
 		this.entityClass = entityClass;
 	}
+
+
+
 
 
 	public EntityManager getEntityManager()

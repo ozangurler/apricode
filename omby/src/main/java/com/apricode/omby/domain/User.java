@@ -47,6 +47,12 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
     private String password;
     private Date createdOn;	
 		
+    
+	protected User()
+	{
+		/* Reflection instantiation */
+	}
+
 
     @Size(min = 1, max = 60)
 	public String getFirstName() {
@@ -59,7 +65,7 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	}
 
 	@Size(min = 1, max = 60)
-	@Column(unique = true, length = 16, nullable = false)
+	@Column(unique = true, length = 60, nullable = false)
 	public String getUserName() {
 		return userName;
 	}
@@ -92,10 +98,6 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	}
 
 
-	protected User()
-	{
-		/* Reflection instantiation */
-	}
 
 
 	public User(String userName, String passwordHash)

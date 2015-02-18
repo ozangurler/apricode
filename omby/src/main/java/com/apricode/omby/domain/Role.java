@@ -11,6 +11,13 @@ import javax.validation.constraints.Size;
 public class Role implements com.apricode.omby.domain.Entity {
 	private static final long serialVersionUID = 1L;
 
+	public Role() {
+		super();
+	}
+
+
+
+
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

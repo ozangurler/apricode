@@ -15,6 +15,7 @@
 			http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<context:annotation-config />
+	<context:component-scan base-package="com.apricode.omby"></context:component-scan>
 
 	<!--
 		DATABASE SETUP 
@@ -56,17 +57,18 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
-	<bean id="newsEntryDao" class="com.apricode.omby.dao.JpaNewsEntryDao">
-	</bean>
+<!-- 	<bean id="newsEntryDao" class="com.apricode.omby.dao.JpaNewsEntryDao"> -->
+<!-- 	</bean> -->
 	
-	<bean id="userDao" class="com.apricode.omby.dao.JpaUserDao">
-	</bean>
+<!-- 	<bean id="userDao" class="com.apricode.omby.dao.JpaUserDao"> -->
+<!-- 	</bean> -->
 	
-	<bean id="dataBaseInitializer" class="com.apricode.omby.dao.DataBaseInitializer" init-method="initDataBase">
-		<constructor-arg ref="userDao" />
-		<constructor-arg ref="newsEntryDao" />
-		<constructor-arg ref="passwordEncoder" />
-	</bean>
+<!-- 	<bean id="dataBaseInitializer" class="com.apricode.omby.dao.DataBaseInitializer" init-method="initDataBase"> -->
+<!-- 		<constructor-arg ref="userDao" /> -->
+<!-- 		<constructor-arg ref="roleDao" /> -->
+<!-- 		<constructor-arg ref="newsEntryDao" /> -->
+<!-- 		<constructor-arg ref="passwordEncoder" /> -->
+<!-- 	</bean> -->
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
