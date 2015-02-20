@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
 public class AllTests {
 
 	// comment out
-	
+	// commit from lenovo
 	
 }
