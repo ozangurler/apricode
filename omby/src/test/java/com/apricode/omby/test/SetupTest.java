@@ -178,7 +178,7 @@ public class SetupTest {
 		User readUserFromDB7 = this.userDao.findByName(prosecutorUserName);	
 		assert (readUserFromDB7.getUsername().equals(createdProsecutorUser));	
 		
-		
+		 
 		
 		String witnessUserName = "tulay@hotmail.com";
 		User createdWitnessUser = new User(witnessUserName, this.passwordEncoder.encode(witnessUserName));
@@ -192,6 +192,10 @@ public class SetupTest {
 		// Control mechanism 
 		User readUserFromDB8 = this.userDao.findByName(witnessUserName);	
 		assert (readUserFromDB8.getUsername().equals(createdWitnessUser));			
+		
+		
+		
+		
 		
 	}
 
