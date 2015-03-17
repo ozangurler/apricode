@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.Cascade;
 @Entity
 @Table
-public class Lawsuit {
+public class Lawsuit implements com.apricode.omby.domain.Entity{
 	private static final Log logger = LogFactory.getLog(Lawsuit.class);
 	// According To JPA annotations should be either on attribute or setter/getters
 	// if both ignores some and give run time error
