@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,11 +22,22 @@ import org.hibernate.annotations.Cascade;
 @Entity
 @Table
 public class Lawsuit implements com.apricode.omby.domain.Entity{
+	public Lawsuit(String name) {
+		super();
+		this.name = name;
+	}
+
+
+	public Lawsuit() {
+		super();
+	}
+
+
 	private static final Log logger = LogFactory.getLog(Lawsuit.class);
 	// According To JPA annotations should be either on attribute or setter/getters
 	// if both ignores some and give run time error
-	// Could not determine type for: java.util.Set, at table: APRI_ECOMMERCE_CATEGORY
-	private Set <CategoryProduct> categoryProducts= new HashSet<CategoryProduct>(0);
+	// Could not determine type for: java.util.Set, at table: APRI_ECOMMERCE_Lawsuit
+	private Set <UserLawsuit> lawsuitUsers= new HashSet<UserLawsuit>(0);
 	private Long id;
 	private Integer version;
 
@@ -48,11 +60,31 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 	}	
 	
 	
-	public void setCategoryProducts(Set <CategoryProduct> categoryProducts){this.categoryProducts = categoryProducts;}
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.category", orphanRemoval=true, 
+    @Size(min = 1, max = 60)
+    private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}	
+	
+	
+	public void addUser(User user){
+		UserLawsuit lawsuitUser = new UserLawsuit();
+		lawsuitUser.setLawsuit(this);
+		lawsuitUser.setUser(user);
+		lawsuitUser.setStatus(new Integer(0));
+		lawsuitUsers.add(lawsuitUser);
+	}
+	
+	public void setLawsuitUsers(Set <UserLawsuit> lawsuitUsers){this.lawsuitUsers =lawsuitUsers;}
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.lawsuit", orphanRemoval=true, 
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH} )
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	public Set <CategoryProduct> getCategoryProducts(){return categoryProducts;}	
+	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}	
 	
 	
 	

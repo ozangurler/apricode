@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JpaDao<T extends Entity, I> implements Dao<T, I>
 {
 
+	
 	private EntityManager entityManager;
 
 	protected Class<T> entityClass;
@@ -41,6 +43,7 @@ public class JpaDao<T extends Entity, I> implements Dao<T, I>
 	}
 
 
+	//@PersistenceContext(type=PersistenceContextType.EXTENDED)
 	@PersistenceContext
 	public void setEntityManager(final EntityManager entityManager)
 	{

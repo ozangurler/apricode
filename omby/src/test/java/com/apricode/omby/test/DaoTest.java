@@ -1,6 +1,8 @@
 package com.apricode.omby.test;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.apricode.omby.dao.LawsuitDao;
 import com.apricode.omby.dao.UserDao;
 import com.apricode.omby.dao.RoleDao;
+import com.apricode.omby.domain.Lawsuit;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
+import com.apricode.omby.domain.UserLawsuit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/resources/context.xml")
@@ -26,7 +32,10 @@ public class DaoTest {
 	private UserDao userDao;
 	@Autowired
 	private RoleDao roleDao;
-
+	@Autowired
+	private LawsuitDao lawsuitDao;
+	
+	
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -46,16 +55,23 @@ public class DaoTest {
 	public void setUp() throws Exception {
 		System.out.println("@Before each test");
 		
-		List <User> ulist = this.userDao.findAll();		
-		for (User aUser : ulist){
-			this.userDao.delete(aUser.getId());
-		}
+		List <Lawsuit> llist = this.lawsuitDao.findAll();		
+		for (Lawsuit aLawsuit : llist){
+			this.lawsuitDao.delete(aLawsuit.getId());
+		}			
 		
 		List <Role> rlist = this.roleDao.findAll();		
 		for (Role aRole : rlist){
 			this.roleDao.delete(aRole.getId());
-		}
+		}	
 		
+		List <User> ulist = this.userDao.findAll();		
+		for (User aUser : ulist){
+			this.userDao.delete(aUser.getId());
+		}		
+
+		
+	
 		
 		
 	}
@@ -63,6 +79,25 @@ public class DaoTest {
 	@After
 	public void tearDown() throws Exception {
 		System.out.println("@After each test");
+		
+		List <Lawsuit> llist = this.lawsuitDao.findAll();		
+		for (Lawsuit aLawsuit : llist){
+			this.lawsuitDao.delete(aLawsuit.getId());
+		}	
+		
+		List <Role> rlist = this.roleDao.findAll();		
+		for (Role aRole : rlist){
+			this.roleDao.delete(aRole.getId());
+		}	
+		
+		List <User> ulist = this.userDao.findAll();		
+		for (User aUser : ulist){
+			this.userDao.delete(aUser.getId());
+		}		
+
+		
+	
+		
 	}
 
 
@@ -149,6 +184,7 @@ public class DaoTest {
 		
 		Role followerRole = new Role("FOLLOWER");
 		this.roleDao.save(followerRole);
+
 		
 		createdUser.addRole(followerRole.getName());
 		
@@ -318,13 +354,164 @@ public class DaoTest {
 	}			
 		
 	
-	
-	
-	
-	
-	
 	// Insert a lawsuit
+	@Test
+	public void testCreateLawsuit() {
+		// fixed lazy initialization problem
+		// http://stackoverflow.com/questions/26783852/keeping-the-session-open-in-junit-jpa-hibernate-struts-and-spring-integration-te
+		// I used EAGER for users lawsuits and fixes the problem it takes all lawsuits of user at once
+		
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");		
+		User createdUser = new User(userName, this.passwordEncoder.encode(userName));
+		
+		
+		Role suerRole = new Role("SUER");		
+		createdUser.addRole(suerRole.getName());
+		this.roleDao.save(suerRole);
+		
+		createdUser = this.userDao.save(createdUser);			
+		
+		
+		
+		System.out.println("DAO1 dryCleanPaymentLawsuit started");	
+		
+		
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);		
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+		
+		
+		//dryCleanLawsuit.addUser(createdUser);		
+		createdUser.addLawsuit(dryCleanLawsuit);
+		
+		createdUser = this.userDao.save(createdUser);	
+		
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+
+		
+		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
+		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
+		while (i.hasNext() )
+		{
+			UserLawsuit readLawsuitFromDB = i.next(); 
+			assert(readLawsuitFromDB.getLawsuit().getName().equals(lawsuitName));
+		}
+		
+		
+
+		
+		
+		
+		
+	}			
+			
+	
+	
+	
+	
+	
 	// Insert many users to one lawsuit
+	// Insert a lawsuit
+	@Test
+	public void testCreateLawsuitWithManyUsers() {
+		System.out.println("DAO testCreateLawsuitWithManyUsers starterted");		
+
+		
+		
+		// create user
+		String userName = "ozangurler@hotmail.com";
+		User createdUser1 = new User(userName, this.passwordEncoder.encode(userName));
+		
+
+		// create user2
+		String userName2 = "yilmazgorali@hotmail.com";
+		User createdUser2 = new User(userName2, this.passwordEncoder.encode(userName2));
+		
+		
+		// create roles
+		Role suerRole = new Role("SUER");		
+		this.roleDao.save(suerRole);
+		
+		Role defendantRole = new Role("DEFENDANT");
+		this.roleDao.save(defendantRole);
+		
+		Role prosecutorRole = new Role("PROSECUTOR");
+		this.roleDao.save(prosecutorRole);
+		
+		Role attorneyRole = new Role("ATTORNEY");
+		this.roleDao.save(attorneyRole);		
+
+		Role judgeRole = new Role("JUDGE");
+		this.roleDao.save(judgeRole);
+
+		Role juryRole = new Role("JURY");
+		this.roleDao.save(juryRole);
+
+		Role followerRole = new Role("FOLLOWER");
+		this.roleDao.save(followerRole);
+		
+		Role witnessRole = new Role("WITNESS");
+		this.roleDao.save(witnessRole);		
+
+	
+		// bind role to the user
+		createdUser1.addRole(suerRole.getName());
+		createdUser1.addRole(prosecutorRole.getName());		
+		
+		createdUser2.addRole(witnessRole.getName());
+		
+		// save user
+		createdUser1 = this.userDao.save(createdUser1);			
+		createdUser2 =this.userDao.save(createdUser2);
+		
+		
+		
+		// create law suit
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);		
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+		
+		
+
+
+		// join user to lawsuit
+		createdUser1.addLawsuit(dryCleanLawsuit);
+		
+		
+		// persist user with lawsuit
+		createdUser1 = this.userDao.save(createdUser1);	
+		
+		
+		
+		dryCleanLawsuit.addUser(createdUser2);
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+		
+		
+		// Control mechanism 
+		User readUserFromDB = this.userDao.findByName(userName);	
+		assert (readUserFromDB.getUsername().equals(createdUser1));
+		
+
+		
+		// FIXME if you uncomment you lazy error
+		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
+		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
+		while (i.hasNext() )
+		{
+			UserLawsuit readLawsuitFromDB = i.next(); 
+			assert(readLawsuitFromDB.getLawsuit().getName().equals(lawsuitName));
+		}
+	}			
+
+	
+	
+	
 	// Try to insert more than one judge to one lawsuit
 	// Insert one user to more than one lawsuit
 	// Create a user with more than one role

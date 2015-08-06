@@ -8,6 +8,7 @@ C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\domain\Role.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\dao\RoleDao.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\transfer\UserTransfer.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\dao\JpaDao.java
+C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\dao\LawsuitDao.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\domain\LocalString.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\domain\Entity.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\domain\DistributedMap.java
@@ -34,4 +35,5 @@ C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\dao\Dao.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\dao\JpaRoleDao.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\domain\LocalLob.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\domain\UserLawsuit.java
+C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\dao\JpaLawsuitDao.java
 C:\Users\Ozan\git\apricode\omby\src\main\java\com\apricode\omby\domain\User.java

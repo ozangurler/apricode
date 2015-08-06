@@ -50,6 +50,7 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
     
 	protected User()
 	{
+		setCreatedOn(new Date());
 		/* Reflection instantiation */
 	}
 
@@ -104,6 +105,7 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	{
 		this.userName = userName;
 		this.password = passwordHash;
+		setCreatedOn(new Date());
 	}
 
 
@@ -210,7 +212,13 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
     
     
     
-    
+	public void addLawsuit(Lawsuit lawsuit){
+		UserLawsuit lawsuitUser = new UserLawsuit();
+		lawsuitUser.setLawsuit(lawsuit);
+		lawsuitUser.setUser(this);
+		lawsuitUser.setStatus(new Integer(0));
+		lawsuitUsers.add(lawsuitUser);
+	}
     
     
     
@@ -232,7 +240,7 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 		this.version = version;
 	}
 	public void setLawsuitUsers(Set <UserLawsuit> lawsuitUsers){this.lawsuitUsers = lawsuitUsers;}
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", orphanRemoval=true, 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.user", orphanRemoval=true, 
 			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}
