@@ -8,8 +8,10 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,6 +28,7 @@ import com.apricode.omby.domain.UserLawsuit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/resources/context.xml")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DaoTest {
 
 	@Autowired
@@ -74,20 +77,20 @@ public class DaoTest {
 	public void tearDown() throws Exception {
 		System.out.println("@After each test");
 
-		List<Lawsuit> llist = this.lawsuitDao.findAll();
-		for (Lawsuit aLawsuit : llist) {
-			this.lawsuitDao.delete(aLawsuit.getId());
-		}
-
-		List<Role> rlist = this.roleDao.findAll();
-		for (Role aRole : rlist) {
-			this.roleDao.delete(aRole.getId());
-		}
-
-		List<User> ulist = this.userDao.findAll();
-		for (User aUser : ulist) {
-			this.userDao.delete(aUser.getId());
-		}
+//		List<Lawsuit> llist = this.lawsuitDao.findAll();
+//		for (Lawsuit aLawsuit : llist) {
+//			this.lawsuitDao.delete(aLawsuit.getId());
+//		}
+//
+//		List<Role> rlist = this.roleDao.findAll();
+//		for (Role aRole : rlist) {
+//			this.roleDao.delete(aRole.getId());
+//		}
+//
+//		List<User> ulist = this.userDao.findAll();
+//		for (User aUser : ulist) {
+//			this.userDao.delete(aUser.getId());
+//		}
 
 	}
 
@@ -345,7 +348,7 @@ public class DaoTest {
 	// Insert many users to one lawsuit
 	// Insert a lawsuit
 	@Test
-	public void testCreateLawsuitWithManyUsers() {
+	public void zzzTestCreateLawsuitWithManyUsers() {
 		System.out.println("DAO testCreateLawsuitWithManyUsers starterted");
 
 		// create user
