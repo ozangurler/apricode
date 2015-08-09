@@ -81,18 +81,33 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 		lawsuitUser.setRole(role);
 		
 		
+		int countOfJudges = 0 ;
 		Set<UserLawsuit> readLawsuitsFromDB = getLawsuitUsers();
 		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
 		while (i.hasNext()) {
-			UserLawsuit readLawsuitFromDB = i.next();
+			UserLawsuit readLawsuitFromDB = i.next();			
 			
-			if ( readLawsuitFromDB.getUser().getUsername().equals(user.getUsername()) 
+			if ( readLawsuitFromDB.getLawsuit().getName().equals(this.getName()) 					
+												&& 
+					readLawsuitFromDB.getRole().getName().equals(Role.JUDGE)
+					)
+				{
+					countOfJudges++;					
+				}
+			
+			
+			if ( readLawsuitFromDB.getLawsuit().getName().equals(this.getName()) 
 				)
 			{
 				throw new OmbyRuleException();
 				
 			}
 		}
+		if (countOfJudges > 0 && role.getName().equals(Role.JUDGE))
+		{
+			throw new OmbyRuleException();
+		}
+			
 		
 		
 		lawsuitUsers.add(lawsuitUser);

@@ -212,7 +212,16 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	}    
     
     
-    
+    /**
+     * 
+     * @param lawsuit
+     * @param role
+     * @throws OmbyRuleException
+     * 
+     * 1 lawsuit can not have one user with different roles
+     * 1 lawsuit can not have more than one judge
+     * 
+     */
 	public void addLawsuit(Lawsuit lawsuit, Role role) throws OmbyRuleException{
 		UserLawsuit lawsuitUser = new UserLawsuit();
 		lawsuitUser.setLawsuit(lawsuit);
@@ -220,11 +229,20 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 		lawsuitUser.setStatus(new Integer(0));
 		lawsuitUser.setRole(role);
 		
-		
+		int countOfJudges = 0 ;
 		Set<UserLawsuit> readLawsuitsFromDB = getLawsuitUsers();
 		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
 		while (i.hasNext()) {
-			UserLawsuit readLawsuitFromDB = i.next();
+			UserLawsuit readLawsuitFromDB = i.next();			
+			
+			if ( readLawsuitFromDB.getLawsuit().getName().equals(lawsuit.getName()) 					
+												&& 
+					readLawsuitFromDB.getRole().getName().equals(Role.JUDGE)
+					)
+				{
+					countOfJudges++;					
+				}
+			
 			
 			if ( readLawsuitFromDB.getLawsuit().getName().equals(lawsuit.getName()) 
 				)
@@ -233,7 +251,15 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 				
 			}
 		}
-		
+		// FIXME baska kullanici ayni lawsuiti judge olarak eklerse readLawsuitFromDB icinde bu lawsuit 
+		// gelmeyecegi icin ayni davada 1 den fazla juge izin veriyor.
+		// lawsuit tarafi degil de user tarafinden addlawsuit user icin control her lawsuit icin ayri yapilmali
+		if (countOfJudges > 0 && role.getName().equals(Role.JUDGE))
+		{
+			throw new OmbyRuleException();
+		}
+			
+			
 		lawsuitUsers.add(lawsuitUser);
 	}
     
