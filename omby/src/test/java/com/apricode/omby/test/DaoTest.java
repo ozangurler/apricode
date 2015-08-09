@@ -18,10 +18,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import sun.util.logging.resources.logging;
+
 import com.apricode.omby.dao.LawsuitDao;
 import com.apricode.omby.dao.UserDao;
 import com.apricode.omby.dao.RoleDao;
 import com.apricode.omby.domain.Lawsuit;
+import com.apricode.omby.domain.OmbyRuleException;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
 import com.apricode.omby.domain.UserLawsuit;
@@ -118,7 +121,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role suerRole = new Role("SUER");
+		Role suerRole = new Role(Role.SUER);
 		this.roleDao.save(suerRole);
 
 		createdUser.addRole(suerRole.getName());
@@ -139,7 +142,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role defendantRole = new Role("DEFENDANT");
+		Role defendantRole = new Role(Role.DEFENDANT);
 		this.roleDao.save(defendantRole);
 
 		createdUser.addRole(defendantRole.getName());
@@ -160,7 +163,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role followerRole = new Role("FOLLOWER");
+		Role followerRole = new Role(Role.FOLLOWER);
 		this.roleDao.save(followerRole);
 
 		createdUser.addRole(followerRole.getName());
@@ -181,7 +184,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role attorneyRole = new Role("ATTORNEY");
+		Role attorneyRole = new Role(Role.ATTORNEY);
 		this.roleDao.save(attorneyRole);
 
 		createdUser.addRole(attorneyRole.getName());
@@ -202,7 +205,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role judgeRole = new Role("JUDGE");
+		Role judgeRole = new Role(Role.JUDGE);
 		this.roleDao.save(judgeRole);
 
 		createdUser.addRole(judgeRole.getName());
@@ -223,7 +226,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role juryRole = new Role("JURY");
+		Role juryRole = new Role(Role.JURY);
 		this.roleDao.save(juryRole);
 
 		createdUser.addRole(juryRole.getName());
@@ -244,7 +247,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role prosecutorRole = new Role("PROSECUTOR");
+		Role prosecutorRole = new Role(Role.PROSECUTOR);
 		this.roleDao.save(prosecutorRole);
 
 		createdUser.addRole(prosecutorRole.getName());
@@ -265,7 +268,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		createdUser = this.userDao.save(createdUser);
 
-		Role witnessRole = new Role("WITNESS");
+		Role witnessRole = new Role(Role.WITNESS);
 		this.roleDao.save(witnessRole);
 
 		createdUser.addRole(witnessRole.getName());
@@ -276,30 +279,7 @@ public class DaoTest {
 
 	}
 
-	// Try to insert a user with more than one role in one lawsuit
-	@Test
-	public void testCreateUserWithMoreThanOneRoleInOneLawsuit() {
 
-		String userName = "ozangurler@hotmail.com";
-		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");
-		User createdUser = new User(userName,
-				this.passwordEncoder.encode(userName));
-		createdUser = this.userDao.save(createdUser);
-
-		Role witnessRole = new Role("WITNESS");
-		this.roleDao.save(witnessRole);
-
-		Role attorneyRole = new Role("ATTORNEY");
-		this.roleDao.save(attorneyRole);
-
-		createdUser.addRole(witnessRole.getName());
-		createdUser.addRole(attorneyRole.getName());
-
-		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
-		assert (readUserFromDB.getUsername().equals(createdUser));
-
-	}
 
 	// Insert a lawsuit
 	@Test
@@ -314,20 +294,22 @@ public class DaoTest {
 		User createdUser = new User(userName,
 				this.passwordEncoder.encode(userName));
 
-		Role suerRole = new Role("SUER");
+		Role suerRole = new Role(Role.SUER);
 		createdUser.addRole(suerRole.getName());
-		this.roleDao.save(suerRole);
+		suerRole = this.roleDao.save(suerRole);
 
 		createdUser = this.userDao.save(createdUser);
 
-		System.out.println("DAO1 dryCleanPaymentLawsuit started");
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
-		// dryCleanLawsuit.addUser(createdUser);
-		createdUser.addLawsuit(dryCleanLawsuit);
+		try {
+			createdUser.addLawsuit(dryCleanLawsuit,suerRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
 
 		createdUser = this.userDao.save(createdUser);
 
@@ -344,6 +326,9 @@ public class DaoTest {
 		}
 
 	}
+	
+	
+	
 
 	// Insert many users to one lawsuit
 	// Insert a lawsuit
@@ -362,29 +347,29 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName2));
 
 		// create roles
-		Role suerRole = new Role("SUER");
-		this.roleDao.save(suerRole);
+		Role suerRole = new Role(Role.SUER);
+		suerRole = this.roleDao.save(suerRole);
 
-		Role defendantRole = new Role("DEFENDANT");
-		this.roleDao.save(defendantRole);
+		Role defendantRole = new Role(Role.DEFENDANT);
+		defendantRole = this.roleDao.save(defendantRole);
 
-		Role prosecutorRole = new Role("PROSECUTOR");
-		this.roleDao.save(prosecutorRole);
+		Role prosecutorRole = new Role(Role.PROSECUTOR);
+		prosecutorRole = this.roleDao.save(prosecutorRole);
 
-		Role attorneyRole = new Role("ATTORNEY");
-		this.roleDao.save(attorneyRole);
+		Role attorneyRole = new Role(Role.ATTORNEY);
+		attorneyRole = this.roleDao.save(attorneyRole);
 
-		Role judgeRole = new Role("JUDGE");
-		this.roleDao.save(judgeRole);
+		Role judgeRole = new Role(Role.JUDGE);
+		judgeRole = this.roleDao.save(judgeRole);
 
-		Role juryRole = new Role("JURY");
-		this.roleDao.save(juryRole);
+		Role juryRole = new Role(Role.JURY);
+		juryRole = this.roleDao.save(juryRole);
 
-		Role followerRole = new Role("FOLLOWER");
-		this.roleDao.save(followerRole);
+		Role followerRole = new Role(Role.FOLLOWER);
+		followerRole = this.roleDao.save(followerRole);
 
-		Role witnessRole = new Role("WITNESS");
-		this.roleDao.save(witnessRole);
+		Role witnessRole = new Role(Role.WITNESS);
+		witnessRole = this.roleDao.save(witnessRole);
 
 		// bind role to the user
 		createdUser1.addRole(suerRole.getName());
@@ -401,13 +386,22 @@ public class DaoTest {
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
-		// join user to lawsuit
-		createdUser1.addLawsuit(dryCleanLawsuit);
+		// join user to lawsuit as SUER
+		try {
+			createdUser1.addLawsuit(dryCleanLawsuit, suerRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
 
 		// persist user with lawsuit
 		createdUser1 = this.userDao.save(createdUser1);
 
-		dryCleanLawsuit.addUser(createdUser2);
+		// law suit is added a user with defendant role
+		try {
+			dryCleanLawsuit.addUser(createdUser2, defendantRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		// Control mechanism
@@ -421,6 +415,52 @@ public class DaoTest {
 			assert (readLawsuitFromDB.getLawsuit().getName()
 					.equals(lawsuitName));
 		}
+	}
+	
+	
+	// Try to insert a user with more than one role in one lawsuit
+	@Test
+	public void testCreateUserWithMoreThanOneRoleInOneLawsuit() {
+
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithMoreThanOneRoleInOneLawsuit started");
+		User createdUser = new User(userName,
+				this.passwordEncoder.encode(userName));
+		createdUser = this.userDao.save(createdUser);
+
+		Role witnessRole = new Role(Role.WITNESS);
+		witnessRole =this.roleDao.save(witnessRole);
+
+		Role attorneyRole = new Role(Role.ATTORNEY);
+		attorneyRole = this.roleDao.save(attorneyRole);
+
+		createdUser.addRole(witnessRole.getName());
+		createdUser.addRole(attorneyRole.getName());	
+		
+		
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+
+
+		try {
+			createdUser.addLawsuit(dryCleanLawsuit,attorneyRole);
+			createdUser.addLawsuit(dryCleanLawsuit,witnessRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+			
+		}
+
+		createdUser = this.userDao.save(createdUser);
+
+		// Control mechanism
+		User readUserFromDB = this.userDao.findByName(userName);
+		assert (readUserFromDB.getUsername().equals(createdUser));
+		
+		assert ( readUserFromDB.getLawsuitUsers().size() ==1 );
+		
+		
+
 	}
 
 	// Try to insert more than one judge to one lawsuit

@@ -10,6 +10,16 @@ import javax.validation.constraints.Size;
 @javax.persistence.Entity
 public class Role implements com.apricode.omby.domain.Entity {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String SUER = "SUER";
+	public static final String DEFENDANT = "DEFENDANT";
+	public static final String PROSECUTOR = "PROSECUTOR";
+	public static final String ATTORNEY = "ATTORNEY";
+	public static final String JUDGE = "JUDGE";
+	public static final String JURY = "JURY";
+	public static final String FOLLOWER = "FOLLOWER";
+	public static final String WITNESS = "WITNESS";
+
 
 	public Role() {
 		super();

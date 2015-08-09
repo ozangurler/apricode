@@ -14,19 +14,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.apricode.omby.dao.LawsuitDao;
 import com.apricode.omby.dao.RoleDao;
 import com.apricode.omby.dao.UserDao;
+import com.apricode.omby.domain.Lawsuit;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/resources/context.xml")
-public class SetupTest {	
+public class SetupTest {
+	
 	@Autowired
 	private UserDao userDao;
 	@Autowired
 	private RoleDao roleDao;
+	@Autowired
+	private LawsuitDao lawsuitDao;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -46,16 +52,20 @@ public class SetupTest {
 		System.out.println("@Before each test");
 
 //     We do not clean before each test since this is setup
-		List <User> ulist = this.userDao.findAll();		
-		for (User aUser : ulist){
-			this.userDao.delete(aUser.getId());
+		List<Lawsuit> llist = this.lawsuitDao.findAll();
+		for (Lawsuit aLawsuit : llist) {
+			this.lawsuitDao.delete(aLawsuit.getId());
 		}
-		
-		List <Role> rlist = this.roleDao.findAll();		
-		for (Role aRole : rlist){
+
+		List<Role> rlist = this.roleDao.findAll();
+		for (Role aRole : rlist) {
 			this.roleDao.delete(aRole.getId());
 		}
-		
+
+		List<User> ulist = this.userDao.findAll();
+		for (User aUser : ulist) {
+			this.userDao.delete(aUser.getId());
+		}
 		
 		
 	}
@@ -68,7 +78,13 @@ public class SetupTest {
 	
 	// We will have only one test to setup
 	@Test
-	public void testCreateUserWithSuerRole() {
+	public void testInitializeTestDB() {
+		createRoles();
+		// create law suit
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+
 		
 		String userName = "ozangurler@hotmail.com";
 		System.out.println("DAO1 testCreateUserWithSuerRole starterted");		
@@ -76,7 +92,7 @@ public class SetupTest {
 		createdUser.setCreatedOn(new Date());
 		createdUser.setEmail(userName);
 		createdUser.setFirstName("Ozan");
-		Role suerRole = new Role("SUER");
+		Role suerRole = new Role(Role.SUER);
 		suerRole = this.roleDao.save(suerRole);
 		createdUser.addRole(suerRole.getName());		
 		createdUser = this.userDao.save(createdUser);		
@@ -90,7 +106,7 @@ public class SetupTest {
 		createdDefendantUser.setCreatedOn(new Date());
 		createdDefendantUser.setEmail(defendantUserName);
 		createdDefendantUser.setFirstName("Hasan");
-		Role defendantRole = new Role("DEFENDANT");	
+		Role defendantRole = new Role(Role.DEFENDANT);	
 		defendantRole = this.roleDao.save(defendantRole);
 		createdDefendantUser.addRole(defendantRole.getName());		
 		createdDefendantUser = this.userDao.save(createdDefendantUser);		
@@ -104,8 +120,8 @@ public class SetupTest {
 		createdFollowerUser.setCreatedOn(new Date());
 		createdFollowerUser.setEmail(followerUserName);
 		createdFollowerUser.setFirstName("Sevdan");
-		Role followerRole = new Role("FOLLOWER");
-		Role witnessRole = new Role("WITNESS");
+		Role followerRole = new Role(Role.FOLLOWER);
+		Role witnessRole = new Role(Role.WITNESS);
 		defendantRole = this.roleDao.save(followerRole);
 		witnessRole = this.roleDao.save(witnessRole);
 		
@@ -124,7 +140,7 @@ public class SetupTest {
 		createdAttorneyUser.setCreatedOn(new Date());
 		createdAttorneyUser.setEmail(attorneyUserName);
 		createdAttorneyUser.setFirstName("Engin");
-		Role attorneyRole = new Role("ATTORNEY");
+		Role attorneyRole = new Role(Role.ATTORNEY);
 		attorneyRole = this.roleDao.save(attorneyRole);
 		createdAttorneyUser.addRole(attorneyRole.getName());		
 		createdAttorneyUser = this.userDao.save(createdAttorneyUser);		
@@ -139,7 +155,7 @@ public class SetupTest {
 		createdJudgeUser.setCreatedOn(new Date());
 		createdJudgeUser.setEmail(judgeUserName);
 		createdJudgeUser.setFirstName("Onur");
-		Role judgeRole = new Role("JUDGE");
+		Role judgeRole = new Role(Role.JUDGE);
 		judgeRole = this.roleDao.save(judgeRole);
 		createdJudgeUser.addRole(judgeRole.getName());		
 		createdJudgeUser = this.userDao.save(createdJudgeUser);		
@@ -155,7 +171,7 @@ public class SetupTest {
 		createdJuryUser.setCreatedOn(new Date());
 		createdJuryUser.setEmail(juryUserName);
 		createdJuryUser.setFirstName("Osman");
-		Role juryRole = new Role("JURY");
+		Role juryRole = new Role(Role.JURY);
 		juryRole = this.roleDao.save(juryRole);
 		createdJuryUser.addRole(juryRole.getName());		
 		createdJuryUser = this.userDao.save(createdJuryUser);		
@@ -170,7 +186,7 @@ public class SetupTest {
 		createdProsecutorUser.setCreatedOn(new Date());
 		createdProsecutorUser.setEmail(prosecutorUserName);
 		createdProsecutorUser.setFirstName("Davud");
-		Role prosecutorRole = new Role("PROSECUTOR");
+		Role prosecutorRole = new Role(Role.PROSECUTOR);
 		prosecutorRole = this.roleDao.save(prosecutorRole);
 		createdProsecutorUser.addRole(prosecutorRole.getName());		
 		createdProsecutorUser = this.userDao.save(createdProsecutorUser);		
@@ -185,7 +201,7 @@ public class SetupTest {
 		createdWitnessUser.setCreatedOn(new Date());
 		createdWitnessUser.setEmail(witnessUserName);
 		createdWitnessUser.setFirstName("Tulay");
-//		Role witnessRole = new Role("WITNESS");
+//		Role witnessRole = new Role(Role.WITNESS");
 //		witnessRole = this.roleDao.save(witnessRole);
 		createdWitnessUser.addRole(witnessRole.getName());		
 		createdWitnessUser = this.userDao.save(createdWitnessUser);		
@@ -197,6 +213,33 @@ public class SetupTest {
 		
 		
 		
+	}
+	private void createRoles(){
+		// create roles
+		Role suerRole = new Role(Role.SUER);
+		this.roleDao.save(suerRole);
+
+		Role defendantRole = new Role(Role.DEFENDANT);
+		this.roleDao.save(defendantRole);
+
+		Role prosecutorRole = new Role(Role.PROSECUTOR);
+		this.roleDao.save(prosecutorRole);
+
+		Role attorneyRole = new Role(Role.ATTORNEY);
+		this.roleDao.save(attorneyRole);
+
+		Role judgeRole = new Role(Role.JUDGE);
+		this.roleDao.save(judgeRole);
+
+		Role juryRole = new Role(Role.JURY);
+		this.roleDao.save(juryRole);
+
+		Role followerRole = new Role(Role.FOLLOWER);
+		this.roleDao.save(followerRole);
+
+		Role witnessRole = new Role(Role.WITNESS);
+		this.roleDao.save(witnessRole);
+
 	}
 
 

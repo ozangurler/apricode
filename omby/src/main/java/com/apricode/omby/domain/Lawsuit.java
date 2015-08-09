@@ -2,6 +2,7 @@ package com.apricode.omby.domain;
 
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -72,11 +73,28 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 	}	
 	
 	
-	public void addUser(User user){
+	public void addUser(User user, Role role) throws OmbyRuleException{
 		UserLawsuit lawsuitUser = new UserLawsuit();
 		lawsuitUser.setLawsuit(this);
 		lawsuitUser.setUser(user);
 		lawsuitUser.setStatus(new Integer(0));
+		lawsuitUser.setRole(role);
+		
+		
+		Set<UserLawsuit> readLawsuitsFromDB = getLawsuitUsers();
+		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
+		while (i.hasNext()) {
+			UserLawsuit readLawsuitFromDB = i.next();
+			
+			if ( readLawsuitFromDB.getUser().getUsername().equals(user.getUsername()) 
+				)
+			{
+				throw new OmbyRuleException();
+				
+			}
+		}
+		
+		
 		lawsuitUsers.add(lawsuitUser);
 	}
 	

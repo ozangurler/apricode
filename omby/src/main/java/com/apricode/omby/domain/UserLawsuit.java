@@ -6,6 +6,7 @@ import javax.persistence.AssociationOverrides;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -19,7 +20,7 @@ public class UserLawsuit implements java.io.Serializable {
 		private UserLawsuitId pk = new UserLawsuitId();
 		
 		private Integer status;
-		
+		private Role role; 
 		
 		@EmbeddedId
 		public UserLawsuitId getPk() {
@@ -64,5 +65,13 @@ public class UserLawsuit implements java.io.Serializable {
 		}
 		public Integer getStatus() {
 			return status;
+		}
+		
+		@ManyToOne
+		public Role getRole() {
+			return role;
+		}
+		public void setRole(Role role) {
+			this.role = role;
 		}
 }
