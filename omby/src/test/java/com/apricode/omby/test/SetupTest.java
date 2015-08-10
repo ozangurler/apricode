@@ -94,7 +94,7 @@ public class SetupTest {
 		createdUser.setFirstName("Ozan");
 		Role suerRole = new Role(Role.SUER);
 		suerRole = this.roleDao.save(suerRole);
-		createdUser.addRole(suerRole.getName());		
+		createdUser.addRole(suerRole);		
 		createdUser = this.userDao.save(createdUser);		
 		// Control mechanism 
 		User readUserFromDB = this.userDao.findByName(userName);	
@@ -108,7 +108,7 @@ public class SetupTest {
 		createdDefendantUser.setFirstName("Hasan");
 		Role defendantRole = new Role(Role.DEFENDANT);	
 		defendantRole = this.roleDao.save(defendantRole);
-		createdDefendantUser.addRole(defendantRole.getName());		
+		createdDefendantUser.addRole(defendantRole);		
 		createdDefendantUser = this.userDao.save(createdDefendantUser);		
 		// Control mechanism 
 		User readUserFromDB2 = this.userDao.findByName(defendantUserName);	
@@ -125,8 +125,8 @@ public class SetupTest {
 		defendantRole = this.roleDao.save(followerRole);
 		witnessRole = this.roleDao.save(witnessRole);
 		
-		createdFollowerUser.addRole(followerRole.getName());
-		createdFollowerUser.addRole(witnessRole.getName());
+		createdFollowerUser.addRole(followerRole);
+		createdFollowerUser.addRole(witnessRole);
 		
 		createdFollowerUser = this.userDao.save(createdFollowerUser);		
 		// Control mechanism 
@@ -142,7 +142,7 @@ public class SetupTest {
 		createdAttorneyUser.setFirstName("Engin");
 		Role attorneyRole = new Role(Role.ATTORNEY);
 		attorneyRole = this.roleDao.save(attorneyRole);
-		createdAttorneyUser.addRole(attorneyRole.getName());		
+		createdAttorneyUser.addRole(attorneyRole);		
 		createdAttorneyUser = this.userDao.save(createdAttorneyUser);		
 		// Control mechanism 
 		User readUserFromDB4 = this.userDao.findByName(attorneyUserName);	
@@ -157,7 +157,7 @@ public class SetupTest {
 		createdJudgeUser.setFirstName("Onur");
 		Role judgeRole = new Role(Role.JUDGE);
 		judgeRole = this.roleDao.save(judgeRole);
-		createdJudgeUser.addRole(judgeRole.getName());		
+		createdJudgeUser.addRole(judgeRole);		
 		createdJudgeUser = this.userDao.save(createdJudgeUser);		
 		// Control mechanism 
 		User readUserFromDB5 = this.userDao.findByName(judgeUserName);	
@@ -173,7 +173,7 @@ public class SetupTest {
 		createdJuryUser.setFirstName("Osman");
 		Role juryRole = new Role(Role.JURY);
 		juryRole = this.roleDao.save(juryRole);
-		createdJuryUser.addRole(juryRole.getName());		
+		createdJuryUser.addRole(juryRole);		
 		createdJuryUser = this.userDao.save(createdJuryUser);		
 		// Control mechanism 
 		User readUserFromDB6 = this.userDao.findByName(juryUserName);	
@@ -188,7 +188,7 @@ public class SetupTest {
 		createdProsecutorUser.setFirstName("Davud");
 		Role prosecutorRole = new Role(Role.PROSECUTOR);
 		prosecutorRole = this.roleDao.save(prosecutorRole);
-		createdProsecutorUser.addRole(prosecutorRole.getName());		
+		createdProsecutorUser.addRole(prosecutorRole);		
 		createdProsecutorUser = this.userDao.save(createdProsecutorUser);		
 		// Control mechanism 
 		User readUserFromDB7 = this.userDao.findByName(prosecutorUserName);	
@@ -203,7 +203,7 @@ public class SetupTest {
 		createdWitnessUser.setFirstName("Tulay");
 //		Role witnessRole = new Role(Role.WITNESS");
 //		witnessRole = this.roleDao.save(witnessRole);
-		createdWitnessUser.addRole(witnessRole.getName());		
+		createdWitnessUser.addRole(witnessRole);		
 		createdWitnessUser = this.userDao.save(createdWitnessUser);		
 		// Control mechanism 
 		User readUserFromDB8 = this.userDao.findByName(witnessUserName);	

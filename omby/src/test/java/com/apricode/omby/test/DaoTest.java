@@ -1,5 +1,6 @@
 package com.apricode.omby.test;
 //  Repository https://github.com/ozangurler/apricode.git
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -16,15 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import sun.util.logging.resources.logging;
-
+import com.apricode.omby.dao.ActionTypeDao;
 import com.apricode.omby.dao.LawsuitDao;
-import com.apricode.omby.dao.UserDao;
+import com.apricode.omby.dao.OptValDao;
 import com.apricode.omby.dao.RoleDao;
+import com.apricode.omby.dao.UserDao;
+import com.apricode.omby.domain.ActionType;
 import com.apricode.omby.domain.Lawsuit;
 import com.apricode.omby.domain.OmbyRuleException;
+import com.apricode.omby.domain.OptVal;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
 import com.apricode.omby.domain.UserLawsuit;
@@ -38,6 +40,10 @@ public class DaoTest {
 	private UserDao userDao;
 	@Autowired
 	private RoleDao roleDao;
+	@Autowired
+	private ActionTypeDao actionTypeDao;
+	@Autowired
+	private OptValDao optValDao;
 	@Autowired
 	private LawsuitDao lawsuitDao;
 
@@ -64,15 +70,32 @@ public class DaoTest {
 			this.lawsuitDao.delete(aLawsuit.getId());
 		}
 
-		List<Role> rlist = this.roleDao.findAll();
-		for (Role aRole : rlist) {
-			this.roleDao.delete(aRole.getId());
+		List<ActionType> atlist = this.actionTypeDao.findAll();
+		for (ActionType anActionType : atlist) {
+			this.actionTypeDao.delete(anActionType.getId());
 		}
-
+		
 		List<User> ulist = this.userDao.findAll();
 		for (User aUser : ulist) {
 			this.userDao.delete(aUser.getId());
 		}
+		
+		List<OptVal> ovlist = this.optValDao.findAll();
+		for (OptVal anOptVal : ovlist) {
+			this.optValDao.delete(anOptVal.getId());
+		}
+		
+		List<Role> rlist = this.roleDao.findAll();
+		for (Role aRole : rlist) {
+			this.roleDao.delete(aRole.getId());
+		}
+		
+
+		
+
+
+
+		
 
 	}
 
@@ -124,7 +147,7 @@ public class DaoTest {
 		Role suerRole = new Role(Role.SUER);
 		this.roleDao.save(suerRole);
 
-		createdUser.addRole(suerRole.getName());
+		createdUser.addRole(suerRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -145,7 +168,7 @@ public class DaoTest {
 		Role defendantRole = new Role(Role.DEFENDANT);
 		this.roleDao.save(defendantRole);
 
-		createdUser.addRole(defendantRole.getName());
+		createdUser.addRole(defendantRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -166,7 +189,7 @@ public class DaoTest {
 		Role followerRole = new Role(Role.FOLLOWER);
 		this.roleDao.save(followerRole);
 
-		createdUser.addRole(followerRole.getName());
+		createdUser.addRole(followerRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -187,7 +210,7 @@ public class DaoTest {
 		Role attorneyRole = new Role(Role.ATTORNEY);
 		this.roleDao.save(attorneyRole);
 
-		createdUser.addRole(attorneyRole.getName());
+		createdUser.addRole(attorneyRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -208,7 +231,7 @@ public class DaoTest {
 		Role judgeRole = new Role(Role.JUDGE);
 		this.roleDao.save(judgeRole);
 
-		createdUser.addRole(judgeRole.getName());
+		createdUser.addRole(judgeRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -229,7 +252,7 @@ public class DaoTest {
 		Role juryRole = new Role(Role.JURY);
 		this.roleDao.save(juryRole);
 
-		createdUser.addRole(juryRole.getName());
+		createdUser.addRole(juryRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -250,7 +273,7 @@ public class DaoTest {
 		Role prosecutorRole = new Role(Role.PROSECUTOR);
 		this.roleDao.save(prosecutorRole);
 
-		createdUser.addRole(prosecutorRole.getName());
+		createdUser.addRole(prosecutorRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -271,7 +294,7 @@ public class DaoTest {
 		Role witnessRole = new Role(Role.WITNESS);
 		this.roleDao.save(witnessRole);
 
-		createdUser.addRole(witnessRole.getName());
+		createdUser.addRole(witnessRole);
 
 		// Control mechanism
 		User readUserFromDB = this.userDao.findByName(userName);
@@ -295,7 +318,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 
 		Role suerRole = new Role(Role.SUER);
-		createdUser.addRole(suerRole.getName());
+		createdUser.addRole(suerRole);
 		suerRole = this.roleDao.save(suerRole);
 
 		createdUser = this.userDao.save(createdUser);
@@ -332,7 +355,7 @@ public class DaoTest {
 
 	// Insert many users to one lawsuit
 	@Test
-	public void zzzTestCreateLawsuitWithManyUsers() {
+	public void testCreateLawsuitWithManyUsers() {
 		System.out.println("DAO testCreateLawsuitWithManyUsers starterted");
 
 		// create user
@@ -371,10 +394,10 @@ public class DaoTest {
 		witnessRole = this.roleDao.save(witnessRole);
 
 		// bind role to the user
-		createdUser1.addRole(suerRole.getName());
-		createdUser1.addRole(prosecutorRole.getName());
+		createdUser1.addRole(suerRole);
+		createdUser1.addRole(prosecutorRole);
 
-		createdUser2.addRole(witnessRole.getName());
+		createdUser2.addRole(witnessRole);
 
 		// save user
 		createdUser1 = this.userDao.save(createdUser1);
@@ -433,8 +456,8 @@ public class DaoTest {
 		Role attorneyRole = new Role(Role.ATTORNEY);
 		attorneyRole = this.roleDao.save(attorneyRole);
 
-		createdUser.addRole(witnessRole.getName());
-		createdUser.addRole(attorneyRole.getName());	
+		createdUser.addRole(witnessRole);
+		createdUser.addRole(attorneyRole);	
 		
 		
 		String lawsuitName = "dryCleanPaymentLawsuit";
@@ -476,7 +499,7 @@ public class DaoTest {
 		Role judgeRole = new Role(Role.JUDGE);
 		judgeRole =this.roleDao.save(judgeRole);
 
-		createdUser.addRole(judgeRole.getName());
+		createdUser.addRole(judgeRole);
 		
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
@@ -527,8 +550,8 @@ public class DaoTest {
 		Role judgeRole = new Role(Role.JUDGE);
 		this.roleDao.save(judgeRole);
 		
-		createdUser.addRole(witnessRole.getName());
-		createdUser.addRole(judgeRole.getName());
+		createdUser.addRole(witnessRole);
+		createdUser.addRole(judgeRole);
 		
 		createdUser = this.userDao.save(createdUser);
 		
@@ -591,8 +614,8 @@ public class DaoTest {
 		Role judgeRole = new Role(Role.JUDGE);
 		judgeRole =this.roleDao.save(judgeRole);
 
-		createdUser.addRole(judgeRole.getName());
-		createdUser2.addRole(judgeRole.getName());
+		createdUser.addRole(judgeRole);
+		createdUser2.addRole(judgeRole);
 		
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
@@ -639,8 +662,8 @@ public class DaoTest {
 		Role juryRole = new Role(Role.JURY);
 		juryRole =this.roleDao.save(juryRole);
 
-		createdUser.addRole(juryRole.getName());
-		createdUser2.addRole(juryRole.getName());
+		createdUser.addRole(juryRole);
+		createdUser2.addRole(juryRole);
 		
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
@@ -694,8 +717,8 @@ public class DaoTest {
 		Role followerRole = new Role(Role.FOLLOWER);
 		followerRole =this.roleDao.save(followerRole);
 
-		createdUser.addRole(followerRole.getName());
-		createdUser2.addRole(followerRole.getName());
+		createdUser.addRole(followerRole);
+		createdUser2.addRole(followerRole);
 		
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
@@ -745,8 +768,8 @@ public class DaoTest {
 		Role attorneyRole = new Role(Role.ATTORNEY);
 		attorneyRole =this.roleDao.save(attorneyRole);
 
-		createdUser.addRole(attorneyRole.getName());
-		createdUser2.addRole(attorneyRole.getName());
+		createdUser.addRole(attorneyRole);
+		createdUser2.addRole(attorneyRole);
 		
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
@@ -775,17 +798,69 @@ public class DaoTest {
 	
 	
 	
-	
+	// Create all of the action types
+	@Test
+	public void zzztestCreateAllActionTypes(){
+		System.out.println("DAO1 testCreateAllActionTypes started");
+//	       ID     Code    
+//	       1 OyKullan
+//	       2 SoruSor
+//	       3 YorumYap
+		// create action types
+		ActionType  voteAction = new ActionType("OY_KULLAN");		
+		voteAction = this.actionTypeDao.save(voteAction);
+		
+		Role juryRole = new Role(Role.JURY);
+		juryRole =this.roleDao.save(juryRole);		
+		
+		
+
+		ActionType  questionAction = new ActionType("SORU_SOR");		
+		questionAction = this.actionTypeDao.save(questionAction);
+		
+		ActionType  commentAction = new ActionType("YORUM_YAP");		
+		commentAction =  this.actionTypeDao.save(commentAction);
+		
+		
+//		1001   Masum                        
+//		1002   Suclu  
+//		1003   Basarılı 
+		
+		OptVal masum = new OptVal("Masum");
+		masum = this.optValDao.save(masum);
+		
+		OptVal suclu = new OptVal("Suclu");
+		suclu = this.optValDao.save(suclu);
+		
+		OptVal basarili = new OptVal("Basarili");
+		basarili = this.optValDao.save(basarili);		
+		
+		
+		Set<OptVal> optVals = new HashSet<OptVal>();
+		optVals.add(masum);
+		optVals.add(suclu);
+		
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(juryRole);
+		voteAction.setRoles(roles);
+		
+		voteAction.setOptVals(optVals);
+		voteAction = this.actionTypeDao.save(voteAction);
+		
+		
+	}	
 	
 	
 	// Make Judge decide
 	// Make a jury vote
 	// Try to make an attorney to decide
 	// Try to make a defendant vote
+	// Make a defendant comment
+	// Make a prosecutor ask question	
+	
 	// Calculate jury role points for a user after successful decision
 	// Calculate jury role points for a user after failed decision
-	// Make a defendant comment
-	// Make a prosecutor ask question
+
 	// Check if user names are opaque to lawsuit
 	// Check points of a user for each role after lawsuit calculation
 	// Create a public lawsuit

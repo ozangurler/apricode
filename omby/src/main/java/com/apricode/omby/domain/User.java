@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -41,7 +43,8 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	private Set <UserLawsuit> lawsuitUsers = new HashSet<UserLawsuit>(0);
 	private Long id;
 	private Integer version;
-	private Set<String> roles = new HashSet<String>();
+	
+	private Set<Role> roles = new HashSet<Role>();
     private String firstName;   
     private String userName;    
     private String email;    
@@ -115,20 +118,21 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 
 
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	public Set<String> getRoles()
+//	@ElementCollection(fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL)
+	public Set<Role> getRoles()
 	{
 		return this.roles;
 	}
 
 
-	public void setRoles(Set<String> roles)
+	public void setRoles(Set<Role> roles)
 	{
 		this.roles = roles;
 	}
 
 
-	public void addRole(String role)
+	public void addRole(Role role)
 	{
 		this.roles.add(role);
 	}
@@ -152,15 +156,15 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	@Transient
 	public Collection<? extends GrantedAuthority> getAuthorities()
 	{
-		Set<String> roles = this.getRoles();
+		Set<Role> roles = this.getRoles();
 
 		if (roles == null) {
 			return Collections.emptyList();
 		}
 
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-		for (String role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role));
+		for (Role role : roles) {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
 
 		return authorities;

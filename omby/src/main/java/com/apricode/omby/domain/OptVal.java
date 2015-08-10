@@ -7,7 +7,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
 @javax.persistence.Entity
-public class OptVal {
+public class OptVal implements com.apricode.omby.domain.Entity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,9 +18,23 @@ public class OptVal {
     @Column(name = "version")
     private Integer version;
     	
+    /**
+     */
+    @Size(min = 1, max = 60)
+    private String valCode;	
 	
-	
-	  public Long getId() {
+    
+    
+    
+	public OptVal() {
+		super();
+	}
+
+	public OptVal(String valCode) {
+		this.valCode =valCode;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
@@ -36,10 +50,7 @@ public class OptVal {
 		this.version = version;
 	}
 
-    /**
-     */
-    @Size(min = 1, max = 60)
-    private String valCode;
+
 
 	public String getValCode() {
 		return valCode;

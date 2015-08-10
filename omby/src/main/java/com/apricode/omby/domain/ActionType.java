@@ -14,10 +14,15 @@ import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
 @javax.persistence.Entity
-public class ActionType {
+public class ActionType implements com.apricode.omby.domain.Entity {
 	
 	
-    @Id
+    public ActionType() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
@@ -26,10 +31,29 @@ public class ActionType {
     @Column(name = "version")
     private Integer version;
     
+	/**
+     */
+    @Size(min = 1, max = 60)
+    private String actionCode;
+    
+    /**
+     */
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Role> roles = new HashSet<Role>();
+    
+    
+    /**
+     */
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<OptVal> optVals = new HashSet<OptVal>();
 
 
+    public ActionType(String actionCode) {
+		super();
+		this.actionCode = actionCode;
+	}
 
-    public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -44,21 +68,6 @@ public class ActionType {
 	public void setVersion(Integer version) {
 		this.version = version;
 	}
-
-	/**
-     */
-    @Size(min = 1, max = 60)
-    private String actionCode;
-
-    /**
-     */
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Role> roles = new HashSet<Role>();
-
-    /**
-     */
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<OptVal> optVals = new HashSet<OptVal>();
 
 	public String getActionCode() {
 		return actionCode;
