@@ -22,6 +22,7 @@ import com.apricode.omby.dao.ActionTypeDao;
 import com.apricode.omby.dao.LawsuitDao;
 import com.apricode.omby.dao.OptValDao;
 import com.apricode.omby.dao.RoleDao;
+import com.apricode.omby.dao.UserActionDao;
 import com.apricode.omby.dao.UserDao;
 import com.apricode.omby.domain.ActionType;
 import com.apricode.omby.domain.Lawsuit;
@@ -29,6 +30,7 @@ import com.apricode.omby.domain.OmbyRuleException;
 import com.apricode.omby.domain.OptVal;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
+import com.apricode.omby.domain.UserAction;
 import com.apricode.omby.domain.UserLawsuit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,6 +48,8 @@ public class DaoTest {
 	private OptValDao optValDao;
 	@Autowired
 	private LawsuitDao lawsuitDao;
+	@Autowired
+	private UserActionDao userActionDao;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -65,19 +69,24 @@ public class DaoTest {
 	public void setUp() throws Exception {
 		System.out.println("@Before each test");
 
-		List<Lawsuit> llist = this.lawsuitDao.findAll();
-		for (Lawsuit aLawsuit : llist) {
-			this.lawsuitDao.delete(aLawsuit.getId());
-		}
-
-		List<ActionType> atlist = this.actionTypeDao.findAll();
-		for (ActionType anActionType : atlist) {
-			this.actionTypeDao.delete(anActionType.getId());
+		List<UserAction> ualist = this.userActionDao.findAll();
+		for (UserAction aUserAction : ualist) {
+			this.userActionDao.delete(aUserAction.getId());
 		}
 		
 		List<User> ulist = this.userDao.findAll();
 		for (User aUser : ulist) {
 			this.userDao.delete(aUser.getId());
+		}		
+		
+		List<Lawsuit> llist = this.lawsuitDao.findAll();
+		for (Lawsuit aLawsuit : llist) {
+			this.lawsuitDao.delete(aLawsuit.getId());
+		}
+	
+		List<Role> rlist = this.roleDao.findAll();
+		for (Role aRole : rlist) {
+			this.roleDao.delete(aRole.getId());
 		}
 		
 		List<OptVal> ovlist = this.optValDao.findAll();
@@ -85,10 +94,20 @@ public class DaoTest {
 			this.optValDao.delete(anOptVal.getId());
 		}
 		
-		List<Role> rlist = this.roleDao.findAll();
-		for (Role aRole : rlist) {
-			this.roleDao.delete(aRole.getId());
+
+
+
+		
+		List<ActionType> atlist = this.actionTypeDao.findAll();
+		for (ActionType anActionType : atlist) {
+			this.actionTypeDao.delete(anActionType.getId());
 		}
+		
+
+		
+
+		
+
 		
 
 		
@@ -800,7 +819,7 @@ public class DaoTest {
 	
 	// Create all of the action types
 	@Test
-	public void zzztestCreateAllActionTypes(){
+	public void testCreateAllActionTypes(){
 		System.out.println("DAO1 testCreateAllActionTypes started");
 //	       ID     Code    
 //	       1 OyKullan
@@ -852,6 +871,99 @@ public class DaoTest {
 	
 	
 	// Make Judge decide
+	@Test
+	public void zzztestJudgeDecide(){
+		System.out.println("DAO1 testJudgeDecide started");
+
+		// create action types
+		ActionType  voteAction = new ActionType("OY_KULLAN");		
+		voteAction = this.actionTypeDao.save(voteAction);
+		
+		Role juryRole = new Role(Role.JURY);
+		juryRole =this.roleDao.save(juryRole);		
+		
+		
+
+		ActionType  questionAction = new ActionType("SORU_SOR");		
+		questionAction = this.actionTypeDao.save(questionAction);
+		
+		ActionType  commentAction = new ActionType("YORUM_YAP");		
+		commentAction =  this.actionTypeDao.save(commentAction);
+		
+		ActionType  decideAction = new ActionType("KARAR_VER");		
+		decideAction = this.actionTypeDao.save(decideAction);			
+		Role judgeRole = new Role(Role.JUDGE);
+		judgeRole =this.roleDao.save(judgeRole);	
+		
+
+		OptVal masum = new OptVal("Masum");
+		masum = this.optValDao.save(masum);
+		
+		OptVal suclu = new OptVal("Suclu");
+		suclu = this.optValDao.save(suclu);
+		
+		OptVal basarili = new OptVal("Basarili");
+		basarili = this.optValDao.save(basarili);		
+		
+		
+		Set<OptVal> optVals = new HashSet<OptVal>();
+		optVals.add(masum);
+		optVals.add(suclu);
+		
+		
+		
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(judgeRole);
+		decideAction.setRoles(roles);
+		
+		decideAction.setOptVals(optVals);
+		decideAction = this.actionTypeDao.save(decideAction);
+		
+		
+		
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+		
+		
+		String userName = "ozangurler@hotmail.com";
+		User judgeJudy = new User(userName,
+				this.passwordEncoder.encode(userName));
+		judgeJudy = this.userDao.save(judgeJudy);
+
+		judgeJudy.addRole(judgeRole);
+		
+		
+
+
+		try {
+			dryCleanLawsuit.addUser(judgeJudy,judgeRole);
+			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+			judgeJudy = this.userDao.save(judgeJudy);
+
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+			
+		}
+		
+		
+		UserAction judgeDecided = new UserAction();
+		judgeDecided.setActionType(decideAction);
+		judgeDecided.setLawsuit(dryCleanLawsuit);
+		judgeDecided.setOptVal(masum);
+		judgeDecided.setRole(judgeRole);
+		judgeDecided.setUser(judgeJudy);
+		judgeDecided.setVal(masum.getValCode());
+		
+		judgeDecided = userActionDao.save(judgeDecided);
+		
+	}	
+	
+	
+	
+	
+	
+	
 	// Make a jury vote
 	// Try to make an attorney to decide
 	// Try to make a defendant vote

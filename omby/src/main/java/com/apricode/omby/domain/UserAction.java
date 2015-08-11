@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 
 @javax.persistence.Entity
-public class UserAction {
+public class UserAction implements com.apricode.omby.domain.Entity {
 	
 	
     
