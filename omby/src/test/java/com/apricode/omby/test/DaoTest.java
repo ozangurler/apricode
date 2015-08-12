@@ -70,6 +70,33 @@ public class DaoTest {
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("@Before each test");
+		
+//		delete FROM omby_ozan.user_role;
+//		delete FROM omby_ozan.user_role;
+//		delete FROM omby_ozan.actiontype_optval;
+//		delete from omby_ozan.useraction;
+//		delete FROM omby_ozan.optval;
+//		delete FROM omby_ozan.actiontype_role;
+//		delete FROM omby_ozan.actiontype;
+//		delete from omby_ozan.userlawsuit;
+//		delete from omby_ozan.user;
+//		delete from omby_ozan.role;
+//		delete from omby_ozan.lawsuit;
+//
+//		drop table omby_ozan.actiontype_optval;
+//		drop table omby_ozan.useraction;
+//		drop table omby_ozan.user_role;
+//		drop table omby_ozan.optval;
+//		drop table omby_ozan.actiontype_role;
+//		drop table omby_ozan.userlawsuit;
+//		drop table  omby_ozan.userroleactiongrade;
+//		drop table omby_ozan.userlawsuitroleactiongrade;
+//		drop table omby_ozan.actiontype;
+//		drop table omby_ozan.lawsuit;
+//		drop table omby_ozan.user;
+//		drop table omby_ozan.role;		
+		
+		
 
 		List<UserAction> ualist = this.userActionDao.findAll();
 		for (UserAction aUserAction : ualist) {
