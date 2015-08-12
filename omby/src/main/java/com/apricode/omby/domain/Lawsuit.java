@@ -63,6 +63,8 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 	
     @Size(min = 1, max = 60)
     private String name;
+    
+    private Boolean publicLawsuit = new Boolean(false); // default lawsuit is private
 
 	public String getName() {
 		return name;
@@ -117,7 +119,17 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.lawsuit", orphanRemoval=true, 
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH} )
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}	
+	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}
+
+
+	public Boolean getPublicLawsuit() {
+		return publicLawsuit;
+	}
+
+
+	public void setPublicLawsuit(Boolean publicLawsuit) {
+		this.publicLawsuit = publicLawsuit;
+	}	
 	
 	
 	

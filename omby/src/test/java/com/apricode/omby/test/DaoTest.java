@@ -1,12 +1,15 @@
 package com.apricode.omby.test;
 
 //  Repository https://github.com/ozangurler/apricode.git
+import static org.junit.Assert.*;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.AssertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -352,6 +355,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		try {
@@ -429,6 +433,7 @@ public class DaoTest {
 		// create law suit
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		// join user to lawsuit as SUER
@@ -484,6 +489,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		try {
@@ -521,6 +527,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		String lawsuitName2 = "radioTapeLawsuit";
@@ -629,6 +636,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		try {
@@ -674,6 +682,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		try {
@@ -719,6 +728,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		try {
@@ -764,6 +774,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		try {
@@ -839,6 +850,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		// create action types
@@ -916,6 +928,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		ActionType voteAction = new ActionType("OY_KULLAN");
@@ -977,6 +990,7 @@ public class DaoTest {
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		ActionType commentAction = new ActionType("YORUM_YAP");
@@ -1029,11 +1043,12 @@ public class DaoTest {
 
 	// Make a prosecutor ask question
 	@Test
-	public void zzztestProsecutorAskQuestion() {
+	public void testProsecutorAskQuestion() {
 		System.out.println("DAO1 testDefendantComment started");
 
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		ActionType questionAction = new ActionType("SORU_SOR");
@@ -1056,8 +1071,7 @@ public class DaoTest {
 		questionAction = this.actionTypeDao.save(questionAction);
 
 		String userName = "zekeriyaoz@hotmail.com";
-		User savci = new User(userName,
-				this.passwordEncoder.encode(userName));
+		User savci = new User(userName, this.passwordEncoder.encode(userName));
 		savci = this.userDao.save(savci);
 
 		savci.addRole(prosecutorRole);
@@ -1083,18 +1097,243 @@ public class DaoTest {
 		defendantCommented = userActionDao.save(defendantCommented);
 
 	}
+
+	// Create a public lawsuit
+	@Test
+	public void testCreatePublicLawsuit() {
+		// fixed lazy initialization problem
+		// http://stackoverflow.com/questions/26783852/keeping-the-session-open-in-junit-jpa-hibernate-struts-and-spring-integration-te
+		// I used EAGER for users lawsuits and fixes the problem it takes all
+		// lawsuits of user at once
+
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");
+		User createdUser = new User(userName,
+				this.passwordEncoder.encode(userName));
+
+		Role suerRole = new Role(Role.SUER);
+		createdUser.addRole(suerRole);
+		suerRole = this.roleDao.save(suerRole);
+
+		createdUser = this.userDao.save(createdUser);
+
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+
+		try {
+			createdUser.addLawsuit(dryCleanLawsuit, suerRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
+
+		createdUser = this.userDao.save(createdUser);
+
+		// Control mechanism
+		User readUserFromDB = this.userDao.findByName(userName);
+		assert (readUserFromDB.getUsername().equals(createdUser));
+
+		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
+		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
+		while (i.hasNext()) {
+			UserLawsuit readLawsuitFromDB = i.next();
+			assert (readLawsuitFromDB.getLawsuit().getName()
+					.equals(lawsuitName));
+		}
+
+	}
+
+	// Create a private lawsuit
+	@Test
+	public void testCreatePrivateLawsuit() {
+		// fixed lazy initialization problem
+		// http://stackoverflow.com/questions/26783852/keeping-the-session-open-in-junit-jpa-hibernate-struts-and-spring-integration-te
+		// I used EAGER for users lawsuits and fixes the problem it takes all
+		// lawsuits of user at once
+
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");
+		User createdUser = new User(userName,
+				this.passwordEncoder.encode(userName));
+
+		Role suerRole = new Role(Role.SUER);
+		createdUser.addRole(suerRole);
+		suerRole = this.roleDao.save(suerRole);
+
+		createdUser = this.userDao.save(createdUser);
+
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(false));
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+
+		try {
+			createdUser.addLawsuit(dryCleanLawsuit, suerRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
+
+		createdUser = this.userDao.save(createdUser);
+
+		// Control mechanism
+		User readUserFromDB = this.userDao.findByName(userName);
+		assert (readUserFromDB.getUsername().equals(createdUser));
+
+		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
+		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
+		while (i.hasNext()) {
+			UserLawsuit readLawsuitFromDB = i.next();
+			assert (readLawsuitFromDB.getLawsuit().getName()
+					.equals(lawsuitName));
+		}
+
+	}
+	// Join to a public lawsuit
+	@Test
+	public void testJoinPublicLawsuit() {
+		// fixed lazy initialization problem
+		// http://stackoverflow.com/questions/26783852/keeping-the-session-open-in-junit-jpa-hibernate-struts-and-spring-integration-te
+		// I used EAGER for users lawsuits and fixes the problem it takes all
+		// lawsuits of user at once
+
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");
+		User createdUser = new User(userName,
+				this.passwordEncoder.encode(userName));
+
+		Role suerRole = new Role(Role.SUER);
+		createdUser.addRole(suerRole);
+		suerRole = this.roleDao.save(suerRole);
+
+		createdUser = this.userDao.save(createdUser);
+
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(true));
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+
+		try {
+			createdUser.addLawsuit(dryCleanLawsuit, suerRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
+
+		createdUser = this.userDao.save(createdUser);
+		
+		
+		// Follow a public lawsuit
+		String userName2 = "ugurmumcu@hotmail.com";
+		User takipci = new User(userName2,
+				this.passwordEncoder.encode(userName2));		
+		
+		Role followerRole = new Role(Role.FOLLOWER);
+		takipci.addRole(followerRole);
+		followerRole = this.roleDao.save(followerRole);		
+		
+		takipci = this.userDao.save(takipci);	
+		try {
+			takipci.addLawsuit(dryCleanLawsuit, followerRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}		
+		takipci = this.userDao.save(takipci);
+		
+		// Control mechanism
+		User readUserFromDB = this.userDao.findByName(userName2);
+		// assert (readUserFromDB.getUsername().equals(takipci));
+
+		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
+		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
+		while (i.hasNext()) {
+			UserLawsuit readLawsuitFromDB = i.next();
+			assert (readLawsuitFromDB.getLawsuit().getName()
+					.equals(lawsuitName));
+		}
+
+	}	
 	
 	
+	// Try join a private lawsuit
+	@Test
+	public void zzztestJoinPrivateLawsuit() {
+		// fixed lazy initialization problem
+		// http://stackoverflow.com/questions/26783852/keeping-the-session-open-in-junit-jpa-hibernate-struts-and-spring-integration-te
+		// I used EAGER for users lawsuits and fixes the problem it takes all
+		// lawsuits of user at once
+
+		String userName = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCreateUserWithWitnessRole starterted");
+		User createdUser = new User(userName,
+				this.passwordEncoder.encode(userName));
+
+		Role suerRole = new Role(Role.SUER);
+		createdUser.addRole(suerRole);
+		suerRole = this.roleDao.save(suerRole);
+
+		createdUser = this.userDao.save(createdUser);
+
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit.setPublicLawsuit(new Boolean(false));
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+
+		try {
+			createdUser.addLawsuit(dryCleanLawsuit, suerRole);
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
+
+		createdUser = this.userDao.save(createdUser);
+		
+		
+		// Follow a public lawsuit
+		String userName2 = "ugurmumcu@hotmail.com";
+		User takipci = new User(userName2,
+				this.passwordEncoder.encode(userName2));		
+		
+		Role followerRole = new Role(Role.FOLLOWER);
+		takipci.addRole(followerRole);
+		followerRole = this.roleDao.save(followerRole);		
+		
+		takipci = this.userDao.save(takipci);	
+		try {
+			takipci.addLawsuit(dryCleanLawsuit, followerRole);
+		} catch (OmbyRuleException e) {
+			System.out.println("-------------PRIVATE LAWSUITS DOES NOT ACCEPT FOLLOWER");
+			e.printStackTrace();
+		}		
+		takipci = this.userDao.save(takipci);
+		
+
+		// Control mechanism
+		User readUserFromDB = this.userDao.findByName(userName2);
+
+		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
+		
+		System.out.println("KATILINAN DAVA SAYISI " + readLawsuitsFromDB.size());
+		
+		
+		Iterator<UserLawsuit> i = readLawsuitsFromDB.iterator();
+		while (i.hasNext()) {
+			UserLawsuit readLawsuitFromDB = i.next();
+			
+			// private lawsuit should not be allowed to join 
+			// code should not go in here
+			System.out.println("PATLASIN------------- " + readLawsuitsFromDB.size());
+			assertTrue (1 == 2 );
+		}
+
+	}	
+	
+
 	// Try to make an attorney to decide
 	// Try to make a defendant vote
-	// Create a public lawsuit
-	// Create a private lawsuit
-	// Try join a private lawsuit
-	// Join to a public lawsuit
 
 	// Calculate jury role points for a user after successful decision
 	// Calculate jury role points for a user after failed decision
+	// Calculate points of a user for each role after lawsuit calculation	
+	
 	// Check if user names are opaque to lawsuit
-	// Check points of a user for each role after lawsuit calculation
 
 }

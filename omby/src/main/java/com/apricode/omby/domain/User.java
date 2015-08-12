@@ -227,6 +227,11 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
      * 
      */
 	public void addLawsuit(Lawsuit lawsuit, Role role) throws OmbyRuleException{
+		// private lawsuits do not except follower
+		if (!lawsuit.getPublicLawsuit() && role.getName().equals(Role.FOLLOWER)){
+			throw new OmbyRuleException();
+		}
+		
 		UserLawsuit lawsuitUser = new UserLawsuit();
 		lawsuitUser.setLawsuit(lawsuit);
 		lawsuitUser.setUser(this);
