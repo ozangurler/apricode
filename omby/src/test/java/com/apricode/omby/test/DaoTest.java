@@ -872,15 +872,15 @@ public class DaoTest {
 	@Test
 	public void zzztestJudgeDecide(){
 		System.out.println("DAO1 testJudgeDecide started");
+		
+		String lawsuitName = "dryCleanPaymentLawsuit";
+		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
+		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+		
 
 		// create action types
 		ActionType  voteAction = new ActionType("OY_KULLAN");		
 		voteAction = this.actionTypeDao.save(voteAction);
-		
-		Role juryRole = new Role(Role.JURY);
-		juryRole =this.roleDao.save(juryRole);		
-		
-		
 
 		ActionType  questionAction = new ActionType("SORU_SOR");		
 		questionAction = this.actionTypeDao.save(questionAction);
@@ -889,7 +889,11 @@ public class DaoTest {
 		commentAction =  this.actionTypeDao.save(commentAction);
 		
 		ActionType  decideAction = new ActionType("KARAR_VER");		
-		decideAction = this.actionTypeDao.save(decideAction);			
+		decideAction = this.actionTypeDao.save(decideAction);
+		
+		Role juryRole = new Role(Role.JURY);
+		juryRole =this.roleDao.save(juryRole);	
+		
 		Role judgeRole = new Role(Role.JUDGE);
 		judgeRole =this.roleDao.save(judgeRole);	
 		
@@ -904,9 +908,7 @@ public class DaoTest {
 		basarili = this.optValDao.save(basarili);		
 		
 		
-		Set<OptVal> optVals = new HashSet<OptVal>();
-		optVals.add(masum);
-		optVals.add(suclu);
+
 		
 		
 		
@@ -914,14 +916,18 @@ public class DaoTest {
 		roles.add(judgeRole);
 		decideAction.setRoles(roles);
 		
+		
+		Set<OptVal> optVals = new HashSet<OptVal>();
+		optVals.add(masum);
+		optVals.add(suclu);		
 		decideAction.setOptVals(optVals);
+		
+		
 		decideAction = this.actionTypeDao.save(decideAction);
 		
 		
 		
-		String lawsuitName = "dryCleanPaymentLawsuit";
-		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
-		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+
 		
 		
 		String userName = "ozangurler@hotmail.com";
@@ -948,11 +954,11 @@ public class DaoTest {
 		UserAction judgeDecided = new UserAction();
 		judgeDecided.setActionType(decideAction);
 		judgeDecided.setLawsuit(dryCleanLawsuit);
-		judgeDecided.setOptVal(masum);
-		judgeDecided.setRole(judgeRole);
-		judgeDecided.setUser(judgeJudy);
 		judgeDecided.setVal(masum.getValCode());
 		
+		judgeDecided.setOptVal(masum);  
+		judgeDecided.setRole(judgeRole);
+		judgeDecided.setUser(judgeJudy);		
 		judgeDecided = userActionDao.save(judgeDecided);
 		
 	}	
