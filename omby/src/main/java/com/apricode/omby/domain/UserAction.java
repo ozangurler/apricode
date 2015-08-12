@@ -1,9 +1,12 @@
 package com.apricode.omby.domain;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
@@ -23,6 +26,36 @@ public class UserAction implements com.apricode.omby.domain.Entity {
     private Integer version;
     	
 	
+
+	
+    @ManyToOne(	cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+    private User user;
+
+    /**
+     */
+    @ManyToOne(	cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+    private Lawsuit lawsuit;
+
+    /**
+     */
+    @ManyToOne(	cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+    private Role role;
+
+    /**
+     */
+    @ManyToOne(	cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+    private ActionType actionType;
+
+    /**
+     */
+    @ManyToOne(	cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH} )
+    private OptVal optVal;
+
+    /**
+     */
+    @Size(min = 1, max = 255)
+    private String val;
+    
 	
 	  public Long getId() {
 		return id;
@@ -40,35 +73,8 @@ public class UserAction implements com.apricode.omby.domain.Entity {
 		this.version = version;
 	}
 
-    /**
-     */
-    @ManyToOne
-    private User user;
-
-    /**
-     */
-    @ManyToOne
-    private Lawsuit lawsuit;
-
-    /**
-     */
-    @ManyToOne
-    private Role role;
-
-    /**
-     */
-    @ManyToOne
-    private ActionType actionType;
-
-    /**
-     */
-    @ManyToOne
-    private OptVal optVal;
-
-    /**
-     */
-    @Size(min = 1, max = 255)
-    private String val;
+    
+    
 
 	public User getUser() {
 		return user;

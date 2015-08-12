@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -74,33 +76,32 @@ public class DaoTest {
 			this.userActionDao.delete(aUserAction.getId());
 		}
 		
-		List<User> ulist = this.userDao.findAll();
-		for (User aUser : ulist) {
-			this.userDao.delete(aUser.getId());
-		}		
-		
-		List<Lawsuit> llist = this.lawsuitDao.findAll();
-		for (Lawsuit aLawsuit : llist) {
-			this.lawsuitDao.delete(aLawsuit.getId());
-		}
-	
-		List<Role> rlist = this.roleDao.findAll();
-		for (Role aRole : rlist) {
-			this.roleDao.delete(aRole.getId());
-		}
+		List<ActionType> atlist = this.actionTypeDao.findAll();
+		for (ActionType anActionType : atlist) {
+			this.actionTypeDao.delete(anActionType.getId());
+		}	
 		
 		List<OptVal> ovlist = this.optValDao.findAll();
 		for (OptVal anOptVal : ovlist) {
 			this.optValDao.delete(anOptVal.getId());
 		}
 		
-
-
-
 		
-		List<ActionType> atlist = this.actionTypeDao.findAll();
-		for (ActionType anActionType : atlist) {
-			this.actionTypeDao.delete(anActionType.getId());
+
+		List<User> ulist = this.userDao.findAll();
+		for (User aUser : ulist) {
+			this.userDao.delete(aUser.getId());
+		}			
+		
+		List<Role> rlist = this.roleDao.findAll();
+		for (Role aRole : rlist) {
+			this.roleDao.delete(aRole.getId());
+		}
+		
+		
+		List<Lawsuit> llist = this.lawsuitDao.findAll();
+		for (Lawsuit aLawsuit : llist) {
+			this.lawsuitDao.delete(aLawsuit.getId());
 		}
 		
 
@@ -108,13 +109,10 @@ public class DaoTest {
 
 		
 
-		
-
-		
 
 
-
-		
+			
+	
 
 	}
 

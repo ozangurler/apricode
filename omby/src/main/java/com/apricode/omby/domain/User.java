@@ -119,7 +119,7 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 
 
 //	@ElementCollection(fetch = FetchType.EAGER)
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	public Set<Role> getRoles()
 	{
 		return this.roles;
