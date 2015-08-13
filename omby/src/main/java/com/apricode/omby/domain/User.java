@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -105,15 +106,26 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 
 
 
-	public User(String userName, String passwordHash)
+	public User(String email, String passwordHash)
 	{
-		this.userName = userName;
+		this.userName = generateRandomString("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",20);
+		this.email = email;
 		this.password = passwordHash;
 		setCreatedOn(new Date());
 	}
 
 
-
+	public static String generateRandomString(String fromCharacters, int length)
+	{
+		Random rng = new Random();
+		int lengthOfFromCharacters = fromCharacters.length();
+	    char[] text = new char[length];
+	    for (int i = 0; i < length; i++)
+	    {
+	        text[i] = fromCharacters.charAt(rng.nextInt(  lengthOfFromCharacters  ));
+	    }
+	    return new String(text);
+	}
 
 
 

@@ -162,7 +162,7 @@ public class DaoTest {
 				this.passwordEncoder.encode(userName));
 		this.userDao.save(createdUser);
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 	}
 
@@ -182,7 +182,7 @@ public class DaoTest {
 		createdUser.addRole(suerRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -203,7 +203,7 @@ public class DaoTest {
 		createdUser.addRole(defendantRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -224,7 +224,7 @@ public class DaoTest {
 		createdUser.addRole(followerRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -245,7 +245,7 @@ public class DaoTest {
 		createdUser.addRole(attorneyRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -266,7 +266,7 @@ public class DaoTest {
 		createdUser.addRole(judgeRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -287,7 +287,7 @@ public class DaoTest {
 		createdUser.addRole(juryRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -308,7 +308,7 @@ public class DaoTest {
 		createdUser.addRole(prosecutorRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -329,7 +329,7 @@ public class DaoTest {
 		createdUser.addRole(witnessRole);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -367,7 +367,7 @@ public class DaoTest {
 		createdUser = this.userDao.save(createdUser);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
@@ -455,7 +455,7 @@ public class DaoTest {
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser1));
 
 		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
@@ -503,7 +503,7 @@ public class DaoTest {
 		createdUser = this.userDao.save(createdUser);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 		assert (readUserFromDB.getLawsuitUsers().size() == 1);
@@ -548,7 +548,7 @@ public class DaoTest {
 		}
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 		assert (readUserFromDB.getLawsuitUsers().size() == 2);
@@ -576,7 +576,7 @@ public class DaoTest {
 		createdUser = this.userDao.save(createdUser);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 	}
@@ -653,7 +653,7 @@ public class DaoTest {
 		}
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 		assert (readUserFromDB.getLawsuitUsers().size() == 1);
 	}
@@ -699,7 +699,7 @@ public class DaoTest {
 		}
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 		assert (readUserFromDB.getLawsuitUsers().size() == 1);
 	}
@@ -745,7 +745,7 @@ public class DaoTest {
 		}
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 		assert (readUserFromDB.getLawsuitUsers().size() == 2);
 	}
@@ -791,7 +791,7 @@ public class DaoTest {
 		}
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 		assert (readUserFromDB.getLawsuitUsers().size() == 2);
 	}
@@ -1131,7 +1131,7 @@ public class DaoTest {
 		createdUser = this.userDao.save(createdUser);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
@@ -1177,7 +1177,7 @@ public class DaoTest {
 		createdUser = this.userDao.save(createdUser);
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName);
+		User readUserFromDB = this.userDao.findByEmail(userName);
 		assert (readUserFromDB.getUsername().equals(createdUser));
 
 		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
@@ -1240,7 +1240,7 @@ public class DaoTest {
 		takipci = this.userDao.save(takipci);
 		
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName2);
+		User readUserFromDB = this.userDao.findByEmail(userName2);
 		// assert (readUserFromDB.getUsername().equals(takipci));
 
 		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
@@ -1256,7 +1256,7 @@ public class DaoTest {
 	
 	// Try join a private lawsuit
 	@Test
-	public void zzztestJoinPrivateLawsuit() {
+	public void testJoinPrivateLawsuit() {
 		// fixed lazy initialization problem
 		// http://stackoverflow.com/questions/26783852/keeping-the-session-open-in-junit-jpa-hibernate-struts-and-spring-integration-te
 		// I used EAGER for users lawsuits and fixes the problem it takes all
@@ -1307,7 +1307,7 @@ public class DaoTest {
 		
 
 		// Control mechanism
-		User readUserFromDB = this.userDao.findByName(userName2);
+		User readUserFromDB = this.userDao.findByEmail(userName2);
 
 		Set<UserLawsuit> readLawsuitsFromDB = readUserFromDB.getLawsuitUsers();
 		
@@ -1326,6 +1326,20 @@ public class DaoTest {
 
 	}	
 	
+	// Check if user names are opaque
+	@Test
+	public void zzztestCheckIfUserNamesAreOpaque() {
+
+		String email = "ozangurler@hotmail.com";
+		System.out.println("DAO1 testCheckIfUserNamesAreOpaque starterted");
+		User createdUser = new User(email,
+				this.passwordEncoder.encode(email));
+		this.userDao.save(createdUser);
+		// Control mechanism
+		User readUserFromDB = this.userDao.findByEmail(email);
+		System.out.println("RANDOM USERNAME------------- " + readUserFromDB.getUsername());
+		assert (!readUserFromDB.getUsername().equals(createdUser.getEmail()));
+	}
 
 	// Try to make an attorney to decide
 	// Try to make a defendant vote
@@ -1334,6 +1348,5 @@ public class DaoTest {
 	// Calculate jury role points for a user after failed decision
 	// Calculate points of a user for each role after lawsuit calculation	
 	
-	// Check if user names are opaque to lawsuit
 
 }
