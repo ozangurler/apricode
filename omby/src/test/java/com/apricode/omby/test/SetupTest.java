@@ -14,24 +14,47 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.apricode.omby.dao.ActionTypeDao;
 import com.apricode.omby.dao.LawsuitDao;
+import com.apricode.omby.dao.OptValDao;
 import com.apricode.omby.dao.RoleDao;
+import com.apricode.omby.dao.UserActionDao;
 import com.apricode.omby.dao.UserDao;
+import com.apricode.omby.domain.ActionType;
 import com.apricode.omby.domain.Lawsuit;
+import com.apricode.omby.domain.OptVal;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
+import com.apricode.omby.domain.UserAction;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/resources/context.xml")
 public class SetupTest {
 	
+	
+	Role suerRole = new Role(Role.SUER);
+	Role defendantRole = new Role(Role.DEFENDANT);
+	Role prosecutorRole = new Role(Role.PROSECUTOR);
+	Role attorneyRole = new Role(Role.ATTORNEY);
+	Role judgeRole = new Role(Role.JUDGE);
+	Role juryRole = new Role(Role.JURY);
+	Role followerRole = new Role(Role.FOLLOWER);
+	Role witnessRole = new Role(Role.WITNESS);
+	
+	
 	@Autowired
 	private UserDao userDao;
 	@Autowired
 	private RoleDao roleDao;
 	@Autowired
+	private ActionTypeDao actionTypeDao;
+	@Autowired
+	private OptValDao optValDao;
+	@Autowired
 	private LawsuitDao lawsuitDao;
+	@Autowired
+	private UserActionDao userActionDao;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -51,10 +74,25 @@ public class SetupTest {
 	public void setUp() throws Exception {
 		System.out.println("@Before each test");
 
-//     We do not clean before each test since this is setup
-		List<Lawsuit> llist = this.lawsuitDao.findAll();
-		for (Lawsuit aLawsuit : llist) {
-			this.lawsuitDao.delete(aLawsuit.getId());
+		// We do not clean before each test since this is setup
+		List<UserAction> ualist = this.userActionDao.findAll();
+		for (UserAction aUserAction : ualist) {
+			this.userActionDao.delete(aUserAction.getId());
+		}
+
+		List<ActionType> atlist = this.actionTypeDao.findAll();
+		for (ActionType anActionType : atlist) {
+			this.actionTypeDao.delete(anActionType.getId());
+		}
+
+		List<OptVal> ovlist = this.optValDao.findAll();
+		for (OptVal anOptVal : ovlist) {
+			this.optValDao.delete(anOptVal.getId());
+		}
+
+		List<User> ulist = this.userDao.findAll();
+		for (User aUser : ulist) {
+			this.userDao.delete(aUser.getId());
 		}
 
 		List<Role> rlist = this.roleDao.findAll();
@@ -62,11 +100,10 @@ public class SetupTest {
 			this.roleDao.delete(aRole.getId());
 		}
 
-		List<User> ulist = this.userDao.findAll();
-		for (User aUser : ulist) {
-			this.userDao.delete(aUser.getId());
+		List<Lawsuit> llist = this.lawsuitDao.findAll();
+		for (Lawsuit aLawsuit : llist) {
+			this.lawsuitDao.delete(aLawsuit.getId());
 		}
-		
 		
 	}
 
@@ -92,8 +129,8 @@ public class SetupTest {
 		createdUser.setCreatedOn(new Date());
 		createdUser.setEmail(userName);
 		createdUser.setFirstName("Ozan");
-		Role suerRole = new Role(Role.SUER);
-		suerRole = this.roleDao.save(suerRole);
+
+
 		createdUser.addRole(suerRole);		
 		createdUser = this.userDao.save(createdUser);		
 		// Control mechanism 
@@ -106,8 +143,8 @@ public class SetupTest {
 		createdDefendantUser.setCreatedOn(new Date());
 		createdDefendantUser.setEmail(defendantUserName);
 		createdDefendantUser.setFirstName("Hasan");
-		Role defendantRole = new Role(Role.DEFENDANT);	
-		defendantRole = this.roleDao.save(defendantRole);
+
+
 		createdDefendantUser.addRole(defendantRole);		
 		createdDefendantUser = this.userDao.save(createdDefendantUser);		
 		// Control mechanism 
@@ -120,10 +157,6 @@ public class SetupTest {
 		createdFollowerUser.setCreatedOn(new Date());
 		createdFollowerUser.setEmail(followerUserName);
 		createdFollowerUser.setFirstName("Sevdan");
-		Role followerRole = new Role(Role.FOLLOWER);
-		Role witnessRole = new Role(Role.WITNESS);
-		defendantRole = this.roleDao.save(followerRole);
-		witnessRole = this.roleDao.save(witnessRole);
 		
 		createdFollowerUser.addRole(followerRole);
 		createdFollowerUser.addRole(witnessRole);
@@ -140,8 +173,8 @@ public class SetupTest {
 		createdAttorneyUser.setCreatedOn(new Date());
 		createdAttorneyUser.setEmail(attorneyUserName);
 		createdAttorneyUser.setFirstName("Engin");
-		Role attorneyRole = new Role(Role.ATTORNEY);
-		attorneyRole = this.roleDao.save(attorneyRole);
+
+
 		createdAttorneyUser.addRole(attorneyRole);		
 		createdAttorneyUser = this.userDao.save(createdAttorneyUser);		
 		// Control mechanism 
@@ -155,8 +188,8 @@ public class SetupTest {
 		createdJudgeUser.setCreatedOn(new Date());
 		createdJudgeUser.setEmail(judgeUserName);
 		createdJudgeUser.setFirstName("Onur");
-		Role judgeRole = new Role(Role.JUDGE);
-		judgeRole = this.roleDao.save(judgeRole);
+
+
 		createdJudgeUser.addRole(judgeRole);		
 		createdJudgeUser = this.userDao.save(createdJudgeUser);		
 		// Control mechanism 
@@ -171,8 +204,8 @@ public class SetupTest {
 		createdJuryUser.setCreatedOn(new Date());
 		createdJuryUser.setEmail(juryUserName);
 		createdJuryUser.setFirstName("Osman");
-		Role juryRole = new Role(Role.JURY);
-		juryRole = this.roleDao.save(juryRole);
+
+
 		createdJuryUser.addRole(juryRole);		
 		createdJuryUser = this.userDao.save(createdJuryUser);		
 		// Control mechanism 
@@ -186,8 +219,8 @@ public class SetupTest {
 		createdProsecutorUser.setCreatedOn(new Date());
 		createdProsecutorUser.setEmail(prosecutorUserName);
 		createdProsecutorUser.setFirstName("Davud");
-		Role prosecutorRole = new Role(Role.PROSECUTOR);
-		prosecutorRole = this.roleDao.save(prosecutorRole);
+
+
 		createdProsecutorUser.addRole(prosecutorRole);		
 		createdProsecutorUser = this.userDao.save(createdProsecutorUser);		
 		// Control mechanism 
@@ -201,8 +234,7 @@ public class SetupTest {
 		createdWitnessUser.setCreatedOn(new Date());
 		createdWitnessUser.setEmail(witnessUserName);
 		createdWitnessUser.setFirstName("Tulay");
-//		Role witnessRole = new Role(Role.WITNESS");
-//		witnessRole = this.roleDao.save(witnessRole);
+
 		createdWitnessUser.addRole(witnessRole);		
 		createdWitnessUser = this.userDao.save(createdWitnessUser);		
 		// Control mechanism 
@@ -216,30 +248,14 @@ public class SetupTest {
 	}
 	private void createRoles(){
 		// create roles
-		Role suerRole = new Role(Role.SUER);
 		this.roleDao.save(suerRole);
-
-		Role defendantRole = new Role(Role.DEFENDANT);
 		this.roleDao.save(defendantRole);
-
-		Role prosecutorRole = new Role(Role.PROSECUTOR);
 		this.roleDao.save(prosecutorRole);
-
-		Role attorneyRole = new Role(Role.ATTORNEY);
 		this.roleDao.save(attorneyRole);
-
-		Role judgeRole = new Role(Role.JUDGE);
 		this.roleDao.save(judgeRole);
-
-		Role juryRole = new Role(Role.JURY);
 		this.roleDao.save(juryRole);
-
-		Role followerRole = new Role(Role.FOLLOWER);
 		this.roleDao.save(followerRole);
-
-		Role witnessRole = new Role(Role.WITNESS);
 		this.roleDao.save(witnessRole);
-
 	}
 
 
