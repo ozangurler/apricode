@@ -1300,7 +1300,7 @@ public class DaoTest {
 		try {
 			takipci.addLawsuit(dryCleanLawsuit, followerRole);
 		} catch (OmbyRuleException e) {
-			System.out.println("-------------PRIVATE LAWSUITS DOES NOT ACCEPT FOLLOWER");
+			System.out.println("-------------PRIVATE LAWSUITS DOES NOT ACCEPT FOLLOWER-------------------ERRR ERR ERR");
 			e.printStackTrace();
 		}		
 		takipci = this.userDao.save(takipci);
@@ -1321,8 +1321,9 @@ public class DaoTest {
 			// private lawsuit should not be allowed to join 
 			// code should not go in here
 			System.out.println("PATLASIN------------- " + readLawsuitsFromDB.size());
-			assertTrue (1 == 2 );
+			assertTrue (false );
 		}
+		assertTrue (true);
 
 	}	
 	
@@ -1341,8 +1342,8 @@ public class DaoTest {
 		assert (!readUserFromDB.getUsername().equals(createdUser.getEmail()));
 	}
 
-	// Try to make an attorney to decide
-	// Try to make a defendant vote
+	// Try to make an attorney to decide-- I will do it later
+	// Try to make a defendant vote-- I will do it later
 
 	// Calculate jury role points for a user after successful decision
 	// Calculate jury role points for a user after failed decision
