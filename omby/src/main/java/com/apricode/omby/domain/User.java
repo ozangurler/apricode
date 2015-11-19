@@ -47,7 +47,9 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	
 	private Set<Role> roles = new HashSet<Role>();
     private String firstName;   
-    private String userName;    
+    private String userName;
+    private String userNameOpaque;    
+
     private String email;    
     private String password;
     private Date createdOn;	
@@ -108,7 +110,9 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 
 	public User(String email, String passwordHash)
 	{
-		this.userName = generateRandomString("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",20);
+		this.userName = email;
+		this.userNameOpaque = generateRandomString("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",20);
+		
 		this.email = email;
 		this.password = passwordHash;
 		setCreatedOn(new Date());
@@ -312,6 +316,19 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}
+
+
+	
+	@Size(min = 1, max = 60)
+	@Column(unique = true, length = 60, nullable = false)
+	public String getUserNameOpaque() {
+		return userNameOpaque;
+	}
+
+
+	public void setUserNameOpaque(String userNameOpaque) {
+		this.userNameOpaque = userNameOpaque;
+	}
 
 
 
