@@ -1,7 +1,9 @@
 package com.apricode.omby.test;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,6 +24,7 @@ import com.apricode.omby.dao.UserActionDao;
 import com.apricode.omby.dao.UserDao;
 import com.apricode.omby.domain.ActionType;
 import com.apricode.omby.domain.Lawsuit;
+import com.apricode.omby.domain.OmbyRuleException;
 import com.apricode.omby.domain.OptVal;
 import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
@@ -240,6 +243,125 @@ public class SetupTest {
 		// Control mechanism 
 		User readUserFromDB8 = this.userDao.findByName(witnessUserName);	
 		assert (readUserFromDB8.getUsername().equals(createdWitnessUser));			
+		//////////////////////////////////////////////////////////////////////////////// ADDED ---------------
+		
+		// create action types
+		ActionType voteAction = new ActionType("OY_KULLAN");
+		voteAction = this.actionTypeDao.save(voteAction);
+		ActionType questionAction = new ActionType("SORU_SOR");
+		questionAction = this.actionTypeDao.save(questionAction);
+		ActionType commentAction = new ActionType("YORUM_YAP");
+		commentAction = this.actionTypeDao.save(commentAction);
+		ActionType decideAction = new ActionType("KARAR_VER");
+		decideAction = this.actionTypeDao.save(decideAction);
+		
+		
+		Set<Role> juryRoles = new HashSet<Role>();
+		juryRoles.add(juryRole);
+		
+		Set<Role> judgeRoles= new HashSet<Role>();
+		judgeRoles.add(judgeRole);
+
+		// Option values for action types
+		OptVal masum = new OptVal("Masum");
+		masum = this.optValDao.save(masum);
+		OptVal suclu = new OptVal("Suclu");
+		suclu = this.optValDao.save(suclu);
+		OptVal basarili = new OptVal("Basarili");
+		basarili = this.optValDao.save(basarili);
+		
+		Set<OptVal> optVals = new HashSet<OptVal>();		
+
+		// which roles can make which action types
+		decideAction.setRoles(judgeRoles);
+		optVals.add(masum);
+		optVals.add(suclu);
+		decideAction.setOptVals(optVals);
+		decideAction = this.actionTypeDao.save(decideAction);
+
+		
+		voteAction.setRoles(juryRoles);
+		voteAction.setOptVals(optVals);		
+		voteAction = this.actionTypeDao.save(voteAction);
+
+
+		// Create Users and  should decide masum other as suclu
+		//---------------------------------------------------------
+		// create user1 jury
+		String userYilmaz = "yilmazgorali@hotmail.com";
+		User createdUserYilmaz = new User(userYilmaz,this.passwordEncoder.encode(userYilmaz));
+		createdUserYilmaz.setFirstName("Yilmaz");
+		createdUserYilmaz.addRole(juryRole);
+		createdUserYilmaz = this.userDao.save(createdUserYilmaz);		
+		
+		// create user2 jury
+		String userNameEngin = "engincabar@hotmail.com";
+		User createdUserJuryEngin = new User(userNameEngin,this.passwordEncoder.encode(userNameEngin));		
+		createdUserJuryEngin.setFirstName("Engin");	
+		createdUserJuryEngin.addRole(juryRole);
+		createdUserJuryEngin = this.userDao.save(createdUserJuryEngin);
+
+		// create user3 judge 	
+		String userNameJudge = "judy@hotmail.com";
+		User judgeJudy = new User(userNameJudge,this.passwordEncoder.encode(userNameJudge));
+		judgeJudy.setFirstName("Judge");
+		judgeJudy.addRole(judgeRole);
+		judgeJudy = this.userDao.save(judgeJudy);
+		
+		//-----------------------Add users to lawsuites		
+		try {
+			dryCleanLawsuit.addUser(createdUserYilmaz, juryRole);
+			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+			createdUserYilmaz = this.userDao.save(createdUserYilmaz);
+
+			dryCleanLawsuit.addUser(createdUserJuryEngin, juryRole);
+			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+			createdUserJuryEngin = this.userDao.save(createdUserJuryEngin);
+			
+			dryCleanLawsuit.addUser(judgeJudy, judgeRole);
+			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+			judgeJudy = this.userDao.save(judgeJudy);				
+			
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
+		//----------------------------------------------------------
+		// One Jury votes masum other as suclu
+		// First Jury Yilmaz Voted masum
+		UserAction juryVoted = new UserAction();
+		juryVoted.setActionType(voteAction);
+		juryVoted.setLawsuit(dryCleanLawsuit);
+		juryVoted.setVal(masum.getValCode()); //---- masum decision made as string
+		juryVoted.setOptVal(masum);  //    --- masum decision made
+		juryVoted.setRole(juryRole);
+		juryVoted.setUser(createdUserYilmaz);
+		juryVoted = userActionDao.save(juryVoted);
+		
+		// Second Jury Engin voted suclu
+		UserAction juryVotedSuclu = new UserAction();
+		juryVotedSuclu.setActionType(voteAction);
+		juryVotedSuclu.setLawsuit(dryCleanLawsuit);
+		juryVotedSuclu.setVal(suclu.getValCode()); //---- suclu decision made as string
+		juryVotedSuclu.setOptVal(suclu);  //    --- suclu decision made
+		juryVotedSuclu.setRole(juryRole);
+		juryVotedSuclu.setUser(createdUserJuryEngin);
+		juryVotedSuclu = userActionDao.save(juryVotedSuclu);		
+		
+
+		//Until here it was a setup that specifies judge can decide as masum or suclu
+		UserAction judgeDecided = new UserAction();
+		judgeDecided.setActionType(decideAction);
+		judgeDecided.setLawsuit(dryCleanLawsuit);
+		judgeDecided.setVal(masum.getValCode());
+		judgeDecided.setOptVal(masum);   // judge decides as masum
+		judgeDecided.setRole(judgeRole);
+		judgeDecided.setUser(judgeJudy);
+		judgeDecided = userActionDao.save(judgeDecided);
+		
+		// calculate jury points after judge decides masum
+		
+		
+		
 		
 		
 		
@@ -248,14 +370,14 @@ public class SetupTest {
 	}
 	private void createRoles(){
 		// create roles
-		this.roleDao.save(suerRole);
-		this.roleDao.save(defendantRole);
-		this.roleDao.save(prosecutorRole);
-		this.roleDao.save(attorneyRole);
-		this.roleDao.save(judgeRole);
-		this.roleDao.save(juryRole);
-		this.roleDao.save(followerRole);
-		this.roleDao.save(witnessRole);
+		suerRole = this.roleDao.save(suerRole);
+		defendantRole = this.roleDao.save(defendantRole);
+		prosecutorRole = this.roleDao.save(prosecutorRole);
+		attorneyRole = this.roleDao.save(attorneyRole);
+		judgeRole = this.roleDao.save(judgeRole);
+		juryRole= this.roleDao.save(juryRole);
+		followerRole = this.roleDao.save(followerRole);
+		witnessRole = this.roleDao.save(witnessRole);
 	}
 
 
