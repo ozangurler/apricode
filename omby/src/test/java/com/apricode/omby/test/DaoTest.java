@@ -114,8 +114,14 @@ public class DaoTest {
 			this.optValDao.delete(anOptVal.getId());
 		}
 
+		List<Lawsuit> llist = this.lawsuitDao.findAll();
+		for (Lawsuit aLawsuit : llist) {
+			this.lawsuitDao.delete(aLawsuit.getId());
+		}
+
 		List<User> ulist = this.userDao.findAll();
 		for (User aUser : ulist) {
+			aUser.setRoles(null); 			
 			this.userDao.delete(aUser.getId());
 		}
 
@@ -124,10 +130,7 @@ public class DaoTest {
 			this.roleDao.delete(aRole.getId());
 		}
 
-		List<Lawsuit> llist = this.lawsuitDao.findAll();
-		for (Lawsuit aLawsuit : llist) {
-			this.lawsuitDao.delete(aLawsuit.getId());
-		}
+
 
 	}
 
@@ -135,20 +138,36 @@ public class DaoTest {
 	public void tearDown() throws Exception {
 		System.out.println("@After each test");
 
-		// List<Lawsuit> llist = this.lawsuitDao.findAll();
-		// for (Lawsuit aLawsuit : llist) {
-		// this.lawsuitDao.delete(aLawsuit.getId());
-		// }
-		//
-		// List<Role> rlist = this.roleDao.findAll();
-		// for (Role aRole : rlist) {
-		// this.roleDao.delete(aRole.getId());
-		// }
-		//
-		// List<User> ulist = this.userDao.findAll();
-		// for (User aUser : ulist) {
-		// this.userDao.delete(aUser.getId());
-		// }
+//		List<UserAction> ualist = this.userActionDao.findAll();
+//		for (UserAction aUserAction : ualist) {
+//			this.userActionDao.delete(aUserAction.getId());
+//		}
+//
+//		List<ActionType> atlist = this.actionTypeDao.findAll();
+//		for (ActionType anActionType : atlist) {
+//			this.actionTypeDao.delete(anActionType.getId());
+//		}
+//
+//		List<OptVal> ovlist = this.optValDao.findAll();
+//		for (OptVal anOptVal : ovlist) {
+//			this.optValDao.delete(anOptVal.getId());
+//		}
+//
+//		List<Lawsuit> llist = this.lawsuitDao.findAll();
+//		for (Lawsuit aLawsuit : llist) {
+//			this.lawsuitDao.delete(aLawsuit.getId());
+//		}
+//
+//		List<User> ulist = this.userDao.findAll();
+//		for (User aUser : ulist) {
+//			aUser.setRoles(null); 			
+//			this.userDao.delete(aUser.getId());
+//		}
+//
+//		List<Role> rlist = this.roleDao.findAll();
+//		for (Role aRole : rlist) {
+//			this.roleDao.delete(aRole.getId());
+//		}
 
 	}
 
@@ -1399,32 +1418,30 @@ public class DaoTest {
 		voteAction = this.actionTypeDao.save(voteAction);
 
 
-		// Create 2 juries and on should decide masum other as suclu
+		// Create Users and  should decide masum other as suclu
 		//---------------------------------------------------------
+		// create user1 jury
 		String userYilmaz = "yilmazgorali@hotmail.com";
-		User createdUserYilmaz = new User(userYilmaz,
-				this.passwordEncoder.encode(userYilmaz));
+		User createdUserYilmaz = new User(userYilmaz,this.passwordEncoder.encode(userYilmaz));
 		createdUserYilmaz.setFirstName("Yilmaz");
 		createdUserYilmaz.addRole(juryRole);
-		createdUserYilmaz = this.userDao.save(createdUserYilmaz);
+		createdUserYilmaz = this.userDao.save(createdUserYilmaz);		
 		
-		
-		
-		// create user2
+		// create user2 jury
 		String userNameEngin = "engin@hotmail.com";
-		User createdUserJuryEngin = new User(userNameEngin,
-				this.passwordEncoder.encode(userNameEngin));		
+		User createdUserJuryEngin = new User(userNameEngin,this.passwordEncoder.encode(userNameEngin));		
 		createdUserJuryEngin.setFirstName("Engin");	
 		createdUserJuryEngin.addRole(juryRole);
 		createdUserJuryEngin = this.userDao.save(createdUserJuryEngin);
-		
-		
-		
-		
-		
-		
-		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
+		// create user3 judge 	
+		String userNameJudge = "judy@hotmail.com";
+		User judgeJudy = new User(userNameJudge,this.passwordEncoder.encode(userNameJudge));
+		judgeJudy.setFirstName("Judge");
+		judgeJudy.addRole(judgeRole);
+		judgeJudy = this.userDao.save(judgeJudy);
+		
+		//-----------------------Add users to lawsuites		
 		try {
 			dryCleanLawsuit.addUser(createdUserYilmaz, juryRole);
 			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
@@ -1433,9 +1450,13 @@ public class DaoTest {
 			dryCleanLawsuit.addUser(createdUserJuryEngin, juryRole);
 			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 			createdUserJuryEngin = this.userDao.save(createdUserJuryEngin);
+			
+			dryCleanLawsuit.addUser(judgeJudy, judgeRole);
+			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
+			judgeJudy = this.userDao.save(judgeJudy);				
+			
 		} catch (OmbyRuleException e) {
 			e.printStackTrace();
-
 		}
 		//----------------------------------------------------------
 		// One Jury votes masum other as suclu
@@ -1459,26 +1480,7 @@ public class DaoTest {
 		juryVotedSuclu.setUser(createdUserJuryEngin);
 		juryVotedSuclu = userActionDao.save(juryVotedSuclu);		
 		
-		//-----------------------------------------------------
-		
-		// Judge Judy decides on dryCleanLawsuit 	
-		String userNameJudge = "judy@hotmail.com";
-		User judgeJudy = new User(userNameJudge,this.passwordEncoder.encode(userNameJudge));
-		judgeJudy.setFirstName("Judge");
-		judgeJudy = this.userDao.save(judgeJudy);
-		judgeJudy.addRole(judgeRole);
 
-		try {
-			dryCleanLawsuit.addUser(judgeJudy, judgeRole);
-			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
-			judgeJudy = this.userDao.save(judgeJudy);
-
-		} catch (OmbyRuleException e) {
-			e.printStackTrace();
-
-		}
-		
-		//--------------------------------------------
 		//Until here it was a setup that specifies judge can decide as masum or suclu
 		UserAction judgeDecided = new UserAction();
 		judgeDecided.setActionType(decideAction);

@@ -131,7 +131,11 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 
 
 //	@ElementCollection(fetch = FetchType.EAGER)
-	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER,
+			cascade = {CascadeType.MERGE,  CascadeType.REFRESH}
+			
+			)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})		
 	public Set<Role> getRoles()
 	{
 		return this.roles;

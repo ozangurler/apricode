@@ -74,7 +74,7 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 		this.name = name;
 	}	
 	
-	
+
 	public void addUser(User user, Role role) throws OmbyRuleException{
 		UserLawsuit lawsuitUser = new UserLawsuit();
 		lawsuitUser.setLawsuit(this);
@@ -89,22 +89,14 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 		while (i.hasNext()) {
 			UserLawsuit readLawsuitFromDB = i.next();			
 			
-			if ( readLawsuitFromDB.getLawsuit().getName().equals(this.getName()) 					
-												&& 
-					readLawsuitFromDB.getRole().getName().equals(Role.JUDGE)
-					)
+			if ( readLawsuitFromDB.getRole().getName().equals(Role.JUDGE)	)
 				{
 					countOfJudges++;					
 				}
 			
 			
-			if ( readLawsuitFromDB.getLawsuit().getName().equals(this.getName()) 
-				)
-			{
-				throw new OmbyRuleException();
-				
-			}
 		}
+		
 		if (countOfJudges > 0 && role.getName().equals(Role.JUDGE))
 		{
 			throw new OmbyRuleException();
