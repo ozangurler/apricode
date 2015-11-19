@@ -71,7 +71,7 @@
 <!-- 		<constructor-arg ref="passwordEncoder" /> -->
 <!-- 	</bean> -->
 
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven />
 
 	<!--
 		INIT REST COMPONENTS 

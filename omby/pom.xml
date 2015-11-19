@@ -12,8 +12,9 @@
 
 	<properties>
 		<!-- Spring Security is based on Spring 3.0.7 -->
-		<spring.version>3.2.8.RELEASE</spring.version>
-		<spring.security.version>3.2.3.RELEASE</spring.security.version>
+		<spring.version>3.2.1.RELEASE</spring.version>
+		<spring.orm.version>3.2.0.RELEASE</spring.orm.version>
+		<spring.security.version>3.2.1.RELEASE</spring.security.version>
 		<jersey.version>1.18.1</jersey.version>
 		<org.slf4j.version>1.7.7</org.slf4j.version>
 		<javax.servlet-api.version>2.5</javax.servlet-api.version>
@@ -27,7 +28,7 @@
 
 	<developers>
 		<developer>
-			<name>Ozan GUrler</name>
+			<name>Ozan Gurler</name>
 			<url>http://www.apricode.com</url>
 		</developer>
 	</developers>
@@ -74,11 +75,13 @@
             <version>1.0.0.GA</version>
         </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+
+		
+		<dependency>   <!-- Usata da Hibernate 4 per LocalSessionFactoryBean -->
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.orm.version}</version>
+        </dependency>
 		
 		<!-- Huh? Spring Jdbc is suddenly marked as provided by spring-orm? -->
 		 <dependency>

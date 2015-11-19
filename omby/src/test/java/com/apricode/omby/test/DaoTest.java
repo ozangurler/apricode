@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
 import javax.validation.constraints.AssertTrue;
 
 import org.junit.After;
@@ -1404,14 +1404,25 @@ public class DaoTest {
 		String userYilmaz = "yilmazgorali@hotmail.com";
 		User createdUserYilmaz = new User(userYilmaz,
 				this.passwordEncoder.encode(userYilmaz));
+		createdUserYilmaz.setFirstName("Yilmaz");
+		createdUserYilmaz.addRole(juryRole);
 		createdUserYilmaz = this.userDao.save(createdUserYilmaz);
+		
+		
+		
 		// create user2
 		String userNameEngin = "engin@hotmail.com";
 		User createdUserJuryEngin = new User(userNameEngin,
-				this.passwordEncoder.encode(userNameEngin));
-		createdUserJuryEngin = this.userDao.save(createdUserJuryEngin);
-		createdUserYilmaz.addRole(juryRole);
+				this.passwordEncoder.encode(userNameEngin));		
+		createdUserJuryEngin.setFirstName("Engin");	
 		createdUserJuryEngin.addRole(juryRole);
+		createdUserJuryEngin = this.userDao.save(createdUserJuryEngin);
+		
+		
+		
+		
+		
+		
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
 
 		try {
@@ -1440,19 +1451,20 @@ public class DaoTest {
 		
 		// Second Jury Engin voted suclu
 		UserAction juryVotedSuclu = new UserAction();
-		juryVoted.setActionType(voteAction);
-		juryVoted.setLawsuit(dryCleanLawsuit);
-		juryVoted.setVal(suclu.getValCode()); //---- suclu decision made as string
-		juryVoted.setOptVal(suclu);  //    --- suclu decision made
-		juryVoted.setRole(juryRole);
-		juryVoted.setUser(createdUserJuryEngin);
-		juryVoted = userActionDao.save(juryVotedSuclu);		
+		juryVotedSuclu.setActionType(voteAction);
+		juryVotedSuclu.setLawsuit(dryCleanLawsuit);
+		juryVotedSuclu.setVal(suclu.getValCode()); //---- suclu decision made as string
+		juryVotedSuclu.setOptVal(suclu);  //    --- suclu decision made
+		juryVotedSuclu.setRole(juryRole);
+		juryVotedSuclu.setUser(createdUserJuryEngin);
+		juryVotedSuclu = userActionDao.save(juryVotedSuclu);		
 		
 		//-----------------------------------------------------
 		
 		// Judge Judy decides on dryCleanLawsuit 	
 		String userNameJudge = "judy@hotmail.com";
 		User judgeJudy = new User(userNameJudge,this.passwordEncoder.encode(userNameJudge));
+		judgeJudy.setFirstName("Judge");
 		judgeJudy = this.userDao.save(judgeJudy);
 		judgeJudy.addRole(judgeRole);
 
