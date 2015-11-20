@@ -18,12 +18,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.apricode.omby.dao.ActionTypeDao;
 import com.apricode.omby.dao.LawsuitDao;
+import com.apricode.omby.dao.NewsEntryDao;
 import com.apricode.omby.dao.OptValDao;
 import com.apricode.omby.dao.RoleDao;
 import com.apricode.omby.dao.UserActionDao;
 import com.apricode.omby.dao.UserDao;
 import com.apricode.omby.domain.ActionType;
 import com.apricode.omby.domain.Lawsuit;
+import com.apricode.omby.domain.NewsEntry;
 import com.apricode.omby.domain.OmbyRuleException;
 import com.apricode.omby.domain.OptVal;
 import com.apricode.omby.domain.Role;
@@ -47,7 +49,11 @@ public class SetupTest {
 	
 	
 	@Autowired
+	private NewsEntryDao newsEntryDao;
+	
+	@Autowired
 	private UserDao userDao;
+	
 	@Autowired
 	private RoleDao roleDao;
 	@Autowired
@@ -116,9 +122,33 @@ public class SetupTest {
 	}
 
 	
+	public void initDataBaseNewsEntries()
+	{
+//		User userUser = new User("user", this.passwordEncoder.encode("user"));
+//		userUser.addRole("user");
+//		this.userDao.save(userUser);
+//
+//		User adminUser = new User("admin", this.passwordEncoder.encode("admin"));
+//		adminUser.addRole("user");
+//		adminUser.addRole("admin");
+//		this.userDao.save(adminUser);
+
+		long timestamp = System.currentTimeMillis() - 1000 * 60 * 60 * 24;
+		for (int i = 0; i < 10; i++) {
+			NewsEntry newsEntry = new NewsEntry();
+			newsEntry.setContent("This is example content " + i);
+			newsEntry.setDate(new Date(timestamp));
+			this.newsEntryDao.save(newsEntry);
+			timestamp += 1000 * 60 * 60;
+		}
+	}	
+	
+	
+	
 	// We will have only one test to setup
 	@Test
 	public void testInitializeTestDB() {
+		initDataBaseNewsEntries(); // FIXME sample coding for angular will be deleted later
 		createRoles();
 		// create law suit
 		String lawsuitName = "dryCleanPaymentLawsuit";
