@@ -1,7 +1,10 @@
 package com.apricode.omby.rest.resources;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,8 +17,13 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 import com.apricode.omby.view.JsonViews;
+import com.apricode.omby.dao.LawsuitDao;
 import com.apricode.omby.dao.NewsEntryDao;
+import com.apricode.omby.dao.UserDao;
+import com.apricode.omby.domain.Lawsuit;
 import com.apricode.omby.domain.NewsEntry;
+import com.apricode.omby.domain.User;
+import com.apricode.omby.domain.UserLawsuit;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -40,28 +48,71 @@ public class NewsEntryResource
 
 	@Autowired
 	private NewsEntryDao newsEntryDao;
-
+	
+	@Autowired
+	private LawsuitDao lawsuitDao;
+	@Autowired
+	private UserDao userDao;
+	
+	
 	@Autowired
 	private ObjectMapper mapper;
 
 
+//	@GET
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public String list() throws JsonGenerationException, JsonMappingException, IOException
+//	{
+//		this.logger.info("list()");
+//
+//		ObjectWriter viewWriter;
+//		if (this.isAdmin()) {
+//			viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
+//		} else {
+//			viewWriter = this.mapper.writerWithView(JsonViews.User.class);
+//		}
+//		List<NewsEntry> allEntries = this.newsEntryDao.findAll();
+//
+//		return viewWriter.writeValueAsString(allEntries);
+//	}
+
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String list() throws JsonGenerationException, JsonMappingException, IOException
 	{
 		this.logger.info("list()");
 
+		
 		ObjectWriter viewWriter;
 		if (this.isAdmin()) {
 			viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
 		} else {
 			viewWriter = this.mapper.writerWithView(JsonViews.User.class);
 		}
-		List<NewsEntry> allEntries = this.newsEntryDao.findAll();
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = authentication.getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;		
+		
+		
+		User currentUser = userDao.findByEmail(userDetails.getUsername());
+		
+		Set<UserLawsuit> allUserLawsuits =  currentUser.getLawsuitUsers();
+		
+		List<Lawsuit> allEntries =  new ArrayList<Lawsuit>();
+		
+		for (Iterator<UserLawsuit> i= allUserLawsuits.iterator(); i.hasNext();  ){
+			
+			UserLawsuit ul = i.next();
+			allEntries.add (ul.getLawsuit());
+			
+		}
+		
+
 
 		return viewWriter.writeValueAsString(allEntries);
 	}
-
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
