@@ -5,7 +5,11 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 @Embeddable
+@JsonIgnoreProperties
 public class UserLawsuitId implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Lawsuit lawsuit;
@@ -32,6 +36,7 @@ public class UserLawsuitId implements java.io.Serializable {
         return result;
     }
 	@ManyToOne(fetch = FetchType.LAZY) 
+	@JsonBackReference
 	public Lawsuit getLawsuit() {
 		return lawsuit;
 	}
@@ -40,6 +45,7 @@ public class UserLawsuitId implements java.io.Serializable {
 		this.lawsuit = lawsuit;
 	}
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonBackReference
 	public User getUser() {
 		return user;
 	}

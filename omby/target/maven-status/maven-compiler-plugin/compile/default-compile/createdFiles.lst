@@ -15,6 +15,7 @@ com\apricode\omby\domain\ActionType.class
 com\apricode\omby\dao\JpaActionTypeDao.class
 com\apricode\omby\rest\TokenUtils.class
 com\apricode\omby\domain\Category.class
+com\apricode\omby\transfer\LawsuitTransfer.class
 com\apricode\omby\dao\ActionTypeDao.class
 com\apricode\omby\domain\LocalLob.class
 com\apricode\omby\domain\UserLawsuitId.class

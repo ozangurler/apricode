@@ -28,15 +28,21 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Entity
 @Table
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class User implements com.apricode.omby.domain.Entity, UserDetails{
 
 	private static final long serialVersionUID = 1L;
@@ -312,10 +318,15 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 		this.version = version;
 	}
 	public void setLawsuitUsers(Set <UserLawsuit> lawsuitUsers){this.lawsuitUsers = lawsuitUsers;}
+	
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.user", orphanRemoval=true, 
 			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}
+	@JsonManagedReference
+	public Set <UserLawsuit> getLawsuitUsers(){
+		return lawsuitUsers;
+		}
 
 
 	

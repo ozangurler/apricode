@@ -19,6 +19,9 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 @Entity
 @Table
@@ -111,6 +114,7 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.lawsuit", orphanRemoval=true, 
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH} )
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+	@JsonBackReference
 	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}
 
 
