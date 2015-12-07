@@ -34,7 +34,7 @@ public class UserLawsuit implements java.io.Serializable {
 		}
 		// http://stackoverflow.com/questions/3325387/infinite-recursion-with-jackson-json-and-hibernate-jpa-issue
 		@Transient
-		@JsonBackReference
+//		@JsonBackReference
 		public User getUser() {
 			return getPk().getUser();
 		}
@@ -42,7 +42,7 @@ public class UserLawsuit implements java.io.Serializable {
 			getPk().setUser(user);
 		}
 		@Transient
-		@JsonBackReference
+//		@JsonBackReference
 		public Lawsuit getLawsuit() {
 			return getPk().getLawsuit();
 		}

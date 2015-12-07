@@ -21,6 +21,7 @@ com\apricode\omby\domain\LocalLob.class
 com\apricode\omby\domain\UserLawsuitId.class
 com\apricode\omby\domain\LocalString.class
 com\apricode\omby\domain\UserRoleActionGrade.class
+com\apricode\omby\rest\resources\LawsuitEntryResource.class
 com\apricode\omby\domain\UserAction.class
 com\apricode\omby\rest\UnauthorizedEntryPoint.class
 com\apricode\omby\domain\OmbyRuleException.class

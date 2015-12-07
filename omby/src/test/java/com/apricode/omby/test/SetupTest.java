@@ -154,7 +154,11 @@ public class SetupTest {
 		String lawsuitName = "dryCleanPaymentLawsuit";
 		Lawsuit dryCleanLawsuit = new Lawsuit(lawsuitName);
 		dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
-
+		
+		
+		String lawsuitName2 = "radioTapeLawsuit";
+		Lawsuit radioTapeLawsuit = new Lawsuit(lawsuitName2);
+		radioTapeLawsuit = this.lawsuitDao.save(radioTapeLawsuit);
 		
 		String userName = "ozangurler@hotmail.com";
 		System.out.println("DAO1 testCreateUserWithSuerRole starterted");		
@@ -350,7 +354,17 @@ public class SetupTest {
 			
 			dryCleanLawsuit.addUser(judgeJudy, judgeRole);
 			dryCleanLawsuit = this.lawsuitDao.save(dryCleanLawsuit);
-			judgeJudy = this.userDao.save(judgeJudy);				
+			judgeJudy = this.userDao.save(judgeJudy);		
+			
+			
+			radioTapeLawsuit.addUser(createdUser, judgeRole);
+			radioTapeLawsuit = this.lawsuitDao.save(radioTapeLawsuit);
+			createdUser = this.userDao.save(createdUser);			
+			
+			radioTapeLawsuit.addUser(createdUserJuryEngin, juryRole);
+			radioTapeLawsuit = this.lawsuitDao.save(radioTapeLawsuit);
+			createdUserJuryEngin = this.userDao.save(createdUserJuryEngin);
+
 			
 		} catch (OmbyRuleException e) {
 			e.printStackTrace();

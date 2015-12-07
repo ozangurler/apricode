@@ -323,7 +323,7 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.user", orphanRemoval=true, 
 			cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@JsonManagedReference
+//	@JsonManagedReference
 	public Set <UserLawsuit> getLawsuitUsers(){
 		return lawsuitUsers;
 		}

@@ -6,13 +6,13 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 		  {			
 			$routeProvider.when('/create', {
 											templateUrl: 'partials/create.html',
-											controller: CreateController
+											controller: CreateLawsuitController
 											}
 								);
 			
 			$routeProvider.when('/edit/:id', {
 											templateUrl: 'partials/edit.html',
-											controller: EditController
+											controller: EditLawsuitController
 											}
 								);
 
@@ -24,7 +24,7 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 			
 			$routeProvider.otherwise(		{
 											templateUrl: 'partials/index.html',
-											controller: IndexController
+											controller: LawsuitIndexController
 											}
 									);
 			
@@ -160,6 +160,53 @@ function IndexController($scope, NewsService)
 };
 
 
+//-------------------------------LAWSUIT ADDITION---------------------------------------
+
+function LawsuitIndexController($scope, LawsuitService) 
+{	
+	$scope.lawsuitEntries = LawsuitService.query();	
+	
+	
+	$scope.deleteLawsuitEntry = function(lawsuitEntry) {
+		lawsuitEntry.$remove(function() 
+												{
+													$scope.lawsuitEntries = LawsuitService.query();
+												}
+												);
+											};
+};
+function EditLawsuitController($scope, $routeParams, $location, LawsuitService) 
+{
+	$scope.lawsuitEntry = LawsuitService.get({id: $routeParams.id});	
+	$scope.save = function() 
+	{
+		$scope.lawsuitEntry.$save(function() 
+								 {
+									$location.path('/');
+								 }
+							   );
+	};
+};
+function CreateLawsuitController($scope, $location, LawsuitService) 
+{	
+	$scope.lawsuitEntry = new LawsuitService();	
+	$scope.save = function() 
+	{
+		$scope.lawsuitEntry.$save(function()
+								 {
+									$location.path('/');
+								 }
+							   );
+	};
+};
+
+
+
+//--------------------------------------------------------------------------------------
+
+
+
+
 function EditController($scope, $routeParams, $location, NewsService) 
 {
 	$scope.newsEntry = NewsService.get({id: $routeParams.id});	
@@ -233,3 +280,14 @@ services.factory('NewsService',
 							return $resource('rest/news/:id', {id: '@id'});
 						}
 				);
+
+
+services.factory('LawsuitService', 
+		function($resource) 
+						{	
+							return $resource('rest/lawsuit/:id', {id: '@id'});
+						}
+				);
+
+
+

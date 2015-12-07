@@ -114,7 +114,7 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.lawsuit", orphanRemoval=true, 
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH} )
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-	@JsonBackReference
+//	@JsonBackReference
 	public Set <UserLawsuit> getLawsuitUsers(){return lawsuitUsers;}
 
 

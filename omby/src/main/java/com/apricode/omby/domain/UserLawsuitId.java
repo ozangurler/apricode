@@ -36,7 +36,7 @@ public class UserLawsuitId implements java.io.Serializable {
         return result;
     }
 	@ManyToOne(fetch = FetchType.LAZY) 
-	@JsonBackReference
+//	@JsonBackReference
 	public Lawsuit getLawsuit() {
 		return lawsuit;
 	}
@@ -45,7 +45,7 @@ public class UserLawsuitId implements java.io.Serializable {
 		this.lawsuit = lawsuit;
 	}
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JsonBackReference
+//	@JsonBackReference
 	public User getUser() {
 		return user;
 	}
