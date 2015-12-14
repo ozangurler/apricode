@@ -19,8 +19,11 @@ import javax.ws.rs.core.MediaType;
 import com.apricode.omby.transfer.LawsuitTransfer;
 import com.apricode.omby.view.JsonViews;
 import com.apricode.omby.dao.LawsuitDao;
+import com.apricode.omby.dao.RoleDao;
 import com.apricode.omby.dao.UserDao;
 import com.apricode.omby.domain.Lawsuit;
+import com.apricode.omby.domain.OmbyRuleException;
+import com.apricode.omby.domain.Role;
 import com.apricode.omby.domain.User;
 import com.apricode.omby.domain.UserLawsuit;
 
@@ -55,6 +58,8 @@ public class LawsuitEntryResource
 	private LawsuitDao lawsuitDao;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private RoleDao roleDao;
 	
 	
 	@Autowired
@@ -124,11 +129,36 @@ public class LawsuitEntryResource
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Lawsuit create(Lawsuit lawsuitEntry)
+	public LawsuitTransfer create(LawsuitTransfer lawsuitTransferEntry)
 	{
-		this.logger.info("create(): " + lawsuitEntry);
+		this.logger.info("create(): " + lawsuitTransferEntry);
+		
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = authentication.getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;		
+		
+		User currentUser = userDao.findByEmail(userDetails.getUsername());	
+		
+		Lawsuit lawsuit =  this.lawsuitDao.save(LawsuitTransfer.map(lawsuitTransferEntry) );
+		
+		
+		try {
+			
+			Role  suerRole = this.roleDao.findByName(Role.SUER);
+			lawsuit.addUser(currentUser, suerRole);
+			lawsuit = this.lawsuitDao.save(lawsuit);
+			currentUser = this.userDao.save(currentUser);
 
-		return this.lawsuitDao.save(lawsuitEntry);
+
+
+			
+		} catch (OmbyRuleException e) {
+			e.printStackTrace();
+		}
+		
+
+		return LawsuitTransfer.map(lawsuit);
 	}
 
 
@@ -136,14 +166,16 @@ public class LawsuitEntryResource
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public Lawsuit update(@PathParam("id") Long id, LawsuitTransfer lawsuitTransferEntry)
+	public LawsuitTransfer update(@PathParam("id") Long id, LawsuitTransfer lawsuitTransferEntry)
 	{
 		this.logger.info("update(): " + lawsuitTransferEntry);
 		
 		Lawsuit ls = this.lawsuitDao.find(id);
 		ls.setName(lawsuitTransferEntry.getName());
 		
-		return this.lawsuitDao.save(ls);
+		ls = this.lawsuitDao.save(ls);
+		
+		return LawsuitTransfer.map(ls);
 	}
 
 
