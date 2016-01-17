@@ -2,16 +2,31 @@
 	<a href="#!/create" class="btn btn-default" ng-show="hasRole('admin')" title="Create"><span class="glyphicon glyphicon-plus"></span></a>
 </div>
 <div class="page-header">
-	<h3>My Lawsuits</h3>
+	<h3>All Lawsuits</h3>
 </div>
 
-<div ng-repeat="lawsuitEntry in lawsuitEntries">
-	<hr />
-	<div class="pull-right">
+
+
+
+
+
+<p>My Lawsuits</p>
+	
+<div ng-repeat="lawsuitEntry in lawsuitEntries" class="mylawsuits" >
+	<div>
 		<a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a>
 		<a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
 	</div>
-	<h4 color="blue"  >{{lawsuitEntry.id}}</h4>
-	<p>{{lawsuitEntry.name}}</p>
+	<h4 color="blue"  >{{lawsuitEntry.id}}  {{lawsuitEntry.name}}</h4>
 </div>
-<hr />
+
+
+<p>Participated Lawsuits</p>	
+<div ng-repeat="lawsuitEntry in lawsuitEntries" class="participatedlawsuits" >
+	<div>
+		<a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a>
+		<a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
+	</div>
+	<h4 color="blue"  >{{lawsuitEntry.id}}  {{lawsuitEntry.name}}</h4>
+</div>
+

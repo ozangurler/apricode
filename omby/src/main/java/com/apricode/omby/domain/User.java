@@ -1,10 +1,12 @@
 package com.apricode.omby.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -38,6 +40,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.apricode.omby.transfer.LawsuitTransfer;
 
 
 @Entity
@@ -341,6 +345,19 @@ public class User implements com.apricode.omby.domain.Entity, UserDetails{
 		this.userNameOpaque = userNameOpaque;
 	}
 
+	@Transient
+	public List<LawsuitTransfer> getMyLawsuitTransfers() {
+		List<LawsuitTransfer> allEntries =  new ArrayList<LawsuitTransfer>();
+		
+		for (UserLawsuit ul:  this.getLawsuitUsers() ){			
+			Lawsuit ls = ul.getLawsuit();
+			LawsuitTransfer lst = ls.getLawSuitTransfer();
 
+			logger.info ("Lawsuit Name: " + lst.getName() + " Id: " + lst.getId() );
+			allEntries.add (lst );			
+		}
+		
+		return allEntries;
+	}
 
 }

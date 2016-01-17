@@ -7,7 +7,14 @@
 </head>
 <body>
 
-
+	<script src="js/jquery-2.0.2.js"></script>
+	<script src="js/bootstrap-3.1.1.min.js"></script>
+	<script src="js/angular-1.2.3.js"></script>
+	<script src="js/angular-resource-1.2.3.js"></script>
+	<script src="js/angular-route-1.2.3.js"></script>
+	<script src="js/angular-cookies-1.2.3.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>
 
 	<div class="loader" ng-hide="initialized">
 		Loading All Of Your Lawsuits ...
@@ -35,7 +42,7 @@
 				<ul class="nav navbar-nav navbar-right">
 
 					<li>
-						<a href="http://wwww.apricode.com"><img src="http://www.apricode.com/templates/apricode/images/logo.png" alt="Apricode Company" style="max-width:50%;"></a>
+						<a href="http://www.apricode.com"><img src="http://www.apricode.com/templates/apricode/images/logo.png" alt="Apricode Company" style="max-width:50%;"></a>
 					</li>
 					<li>
 						<a href="http://www.eskidost.com"><img src="http://www.eskidost.com/pages/images/lang_tr.jpg" alt="Eskidost" /></a>
@@ -53,16 +60,9 @@
 
 	<div class="container" ng-show="initialized">
 		<div class="alert alert-danger" ng-show="error">{{error}}</div>
-		<div ng-view></div>
+		<div ng-view class="centerDiv"></div>
 	</div>
 	
-	<script src="js/jquery-2.0.2.js"></script>
-	<script src="js/bootstrap-3.1.1.min.js"></script>
-	<script src="js/angular-1.2.3.js"></script>
-	<script src="js/angular-resource-1.2.3.js"></script>
-	<script src="js/angular-route-1.2.3.js"></script>
-	<script src="js/angular-cookies-1.2.3.js"></script>
-	<script src="js/config.js"></script>
-	<script src="js/app.js"></script>
+
 </body>
 </html>

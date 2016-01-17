@@ -20,3 +20,33 @@ ng-hide {
 	right: 0;
 	margin: auto;
 }
+
+
+
+
+
+.centerDiv
+{
+	width: 1000px;
+	margin: 0 auto; 
+	background-color:#FFcccc ;
+	font-weight: bold;
+	color:#fff;
+}
+
+.mylawsuits {
+ 	width: 50%;  
+	text-align: center;	
+	font-weight: bold;
+	color:#fff;
+	background-color:#428b21;
+}
+
+.participatedlawsuits {
+	width: 50%;   
+	float:right; 		
+	text-align: center;	
+	font-weight: bold;
+	color:#fff;
+	background-color:#fc8b21;
+}

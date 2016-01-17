@@ -70,39 +70,24 @@ public class LawsuitEntryResource
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional
-	public String list() throws JsonGenerationException, JsonMappingException, IOException
+	public String gluglu() throws JsonGenerationException, JsonMappingException, IOException
 	{
-		this.logger.info("list()");
+		this.logger.info("gluglu() of Lawsuits   ----------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-		
 		ObjectWriter viewWriter;
 		if (this.isAdmin()) {
 			viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
 		} else {
 			viewWriter = this.mapper.writerWithView(JsonViews.User.class);
-		}
-		
+		}	
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Object principal = authentication.getPrincipal();
-		UserDetails userDetails = (UserDetails) principal;		
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();		
 		
-		User currentUser = userDao.findByEmail(userDetails.getUsername());				
-		List<LawsuitTransfer> allEntries =  new ArrayList<LawsuitTransfer>();
+		User currentUser = userDao.findByEmail(userDetails.getUsername());	
+		return viewWriter.writeValueAsString(currentUser.getMyLawsuitTransfers());
 		
-		for (UserLawsuit ul:currentUser.getLawsuitUsers() ){			
-			Lawsuit ls = ul.getLawsuit();
-			LawsuitTransfer lst = new LawsuitTransfer();
-			lst.setId(ls.getId());
-			lst.setName(ls.getName());
-			lst.setPublicLawsuit(ls.getPublicLawsuit());
-			lst.setVersion(ls.getVersion());
-			
-			
-			logger.info ("Lawsuit Name: " + lst.getName() + " Id: " + lst.getId() );
-			allEntries.add (lst );			
-		}
-		return viewWriter.writeValueAsString(allEntries);
+		
 	}
 
 	@GET

@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
@@ -23,6 +24,8 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
+
+import com.apricode.omby.transfer.LawsuitTransfer;
 @Entity
 @Table
 public class Lawsuit implements com.apricode.omby.domain.Entity{
@@ -127,6 +130,28 @@ public class Lawsuit implements com.apricode.omby.domain.Entity{
 		this.publicLawsuit = publicLawsuit;
 	}	
 	
-	
+	@Transient
+	public LawsuitTransfer getLawSuitTransfer() {
+
+		LawsuitTransfer lst = new LawsuitTransfer();
+
+		lst.setId(this.getId());
+		lst.setName(this.getName());
+		lst.setPublicLawsuit(this.getPublicLawsuit());
+		lst.setVersion(this.getVersion());
+
+		return lst;
+	}
+
+	public void setLawSuitTransfer(LawsuitTransfer lst) {
+
+		if (lst.getId().equals(this.getId())) {
+
+			this.setName(lst.getName());
+			this.setPublicLawsuit(lst.getPublicLawsuit());
+			this.setVersion(lst.getVersion());
+		}
+
+	}
 	
 }

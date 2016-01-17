@@ -146,20 +146,6 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 	);
 	// ------------- End of run
 
-
-function IndexController($scope, NewsService) 
-{	
-	$scope.newsEntries = NewsService.query();	
-	$scope.deleteEntry = function(newsEntry) {
-							newsEntry.$remove(function() 
-												{
-													$scope.newsEntries = NewsService.query();
-												}
-												);
-											};
-};
-
-
 //-------------------------------LAWSUIT ADDITION---------------------------------------
 
 function LawsuitIndexController($scope, LawsuitService) 
@@ -207,34 +193,6 @@ function CreateLawsuitController($scope, $location, LawsuitService)
 
 
 
-function EditController($scope, $routeParams, $location, NewsService) 
-{
-	$scope.newsEntry = NewsService.get({id: $routeParams.id});	
-	$scope.save = function() 
-	{
-		$scope.newsEntry.$save(function() 
-								 {
-									$location.path('/');
-								 }
-							   );
-	};
-};
-
-
-function CreateController($scope, $location, NewsService) 
-{	
-	$scope.newsEntry = new NewsService();	
-	$scope.save = function() 
-	{
-		$scope.newsEntry.$save(function()
-								 {
-									$location.path('/');
-								 }
-							   );
-	};
-};
-
-
 function LoginController($scope, $rootScope, $location, $cookieStore, UserService) 
 {	
 	$scope.rememberMe = false;	
@@ -272,13 +230,6 @@ services.factory('UserService',
 													}
 												);
 							}
-				);
-
-services.factory('NewsService', 
-		function($resource) 
-						{	
-							return $resource('rest/news/:id', {id: '@id'});
-						}
 				);
 
 
