@@ -93,10 +93,6 @@
 			authentication-manager-ref="authenticationManager">
 		<security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />
 		<security:intercept-url pattern="/rest/user/authenticate" access="permitAll" />
-		<security:intercept-url method="GET" pattern="/rest/news/**" access="hasRole('JURY')" />
-		<security:intercept-url method="PUT" pattern="/rest/news/**" access="hasRole('JURY')" />
-		<security:intercept-url method="POST" pattern="/rest/news/**" access="hasRole('JURY')" />
-		<security:intercept-url method="DELETE" pattern="/rest/news/**" access="hasRole('JURY')" />	
 		<security:intercept-url method="GET" pattern="/rest/lawsuit/**" access="hasRole('JURY')" />
 		<security:intercept-url method="PUT" pattern="/rest/lawsuit/**" access="hasRole('JURY')" />
 		<security:intercept-url method="POST" pattern="/rest/lawsuit/**" access="hasRole('JURY')" />
