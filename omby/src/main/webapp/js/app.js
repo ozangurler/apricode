@@ -22,6 +22,26 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 											}
 								);
 			
+			$routeProvider.when('/', {
+													url: '/lawsuit/list',
+													templateUrl: 'partials/index.html',
+													controller: LawsuitIndexController
+													}
+								);
+			
+			$routeProvider.when('/list', {
+													url: '/lawsuit/list',
+													templateUrl: 'partials/index.html',
+													controller: LawsuitIndexController
+													}
+									);
+
+			$routeProvider.when('/lawsuit', {
+													url: '/lawsuit/list',
+													templateUrl: 'partials/index.html',
+													controller: LawsuitIndexController
+													}
+									);
 			$routeProvider.otherwise(		{
 											templateUrl: 'partials/index.html',
 											controller: LawsuitIndexController
@@ -90,7 +110,7 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 		    
 		    
 		   
-			} 		
+			}// end of function($routeProvider, $locationProvider, $httpProvider)  		
 		]		
 	).run(
 		function($rootScope, $location, $cookieStore, UserService) 
@@ -150,16 +170,20 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 
 function LawsuitIndexController($scope, LawsuitService) 
 {	
-	$scope.lawsuitEntries = LawsuitService.query();	
+	$scope.lawsuitEntries = LawsuitService.query(function(){
+														console.log($scope.lawsuitEntries);
+														}
+												);	
 	
 	
-	$scope.deleteLawsuitEntry = function(lawsuitEntry) {
-		lawsuitEntry.$remove(function() 
-												{
-													$scope.lawsuitEntries = LawsuitService.query();
-												}
-												);
-											};
+	$scope.deleteLawsuitEntry = function(lawsuitEntry) 
+								{
+									lawsuitEntry.$remove(
+													function(){
+																	$scope.lawsuitEntries = LawsuitService.query();
+															  }
+														);
+								};
 };
 function EditLawsuitController($scope, $routeParams, $location, LawsuitService) 
 {

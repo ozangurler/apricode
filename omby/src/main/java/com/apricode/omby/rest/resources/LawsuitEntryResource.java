@@ -70,6 +70,7 @@ public class LawsuitEntryResource
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional
+//	@Path("list")
 	public String gluglu() throws JsonGenerationException, JsonMappingException, IOException
 	{
 		this.logger.info("gluglu() of Lawsuits   ----------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

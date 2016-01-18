@@ -78,6 +78,7 @@ public class UserResource
 	@Produces(MediaType.APPLICATION_JSON)
 	public TokenTransfer authenticate(@FormParam("username") String username, @FormParam("password") String password)
 	{
+		
 		UsernamePasswordAuthenticationToken authenticationToken =
 				new UsernamePasswordAuthenticationToken(username, password);
 		Authentication authentication = this.authManager.authenticate(authenticationToken);
