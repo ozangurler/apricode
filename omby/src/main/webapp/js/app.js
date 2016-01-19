@@ -150,27 +150,27 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 
 function LawsuitIndexController($scope, LawsuitService) 
 {	
-	$scope.lawsuitEntries = LawsuitService.query(function(){
+	$scope.lawsuitEntries = LawsuitService.lawsuit.query(function(){
 														console.log($scope.lawsuitEntries);
 														}
 												);	
 	
-	$scope.names = LawsuitService.list(function(){
-		console.log($scope.lawsuitEntries);
-		}
-);		
+	$scope.names = LawsuitService.lawsuits.list(function(){
+															console.log($scope.lawsuitEntries);
+															}
+												);		
 	$scope.deleteLawsuitEntry = function(lawsuitEntry) 
 								{
 									lawsuitEntry.$remove(
 													function(){
-																	$scope.lawsuitEntries = LawsuitService.query();
+																	$scope.lawsuitEntries = LawsuitService.lawsuit.query();
 															  }
 														);
 								};
 };
 function EditLawsuitController($scope, $routeParams, $location, LawsuitService) 
 {
-	$scope.lawsuitEntry = LawsuitService.get({id: $routeParams.id});	
+	$scope.lawsuitEntry = LawsuitService.lawsuit.get({id: $routeParams.id});	
 	$scope.save = function() 
 	{
 		$scope.lawsuitEntry.$save(function() 
@@ -182,7 +182,7 @@ function EditLawsuitController($scope, $routeParams, $location, LawsuitService)
 };
 function CreateLawsuitController($scope, $location, LawsuitService) 
 {	
-	$scope.lawsuitEntry = new LawsuitService();	
+	$scope.lawsuitEntry = new LawsuitService.lawsuit();	
 	$scope.save = function() 
 	{
 		$scope.lawsuitEntry.$save(function()
@@ -243,28 +243,26 @@ services.factory('UserService',
 //----------------return $resource('rest/lawsuit/:id', {id: '@id'});
 services.factory('LawsuitService', 
 		function($resource) 
-						{	
-							return $resource
-							(
-									   'rest/lawsuit/:action',{},
-								        {
-								          list: {
-								            method:'GET', 
-								            params: {'action' : 'list'},
-								        	isArray: true
-								          }
-								        }
-										
-										
+						
+		
+{	
+	return {
 	
-							);
-						}
+         lawsuit: $resource('rest/lawsuit/:id', {id: '@id'}),
+         lawsuits: $resource('rest/lawsuit/:action', {}, 
+							        		 			{
+											        	 list: {  method:'GET', 
+													            params: {action: 'list'},
+													        	isArray: true
+											                    }
+							         					}
+         					)	
+	
+			}
+}	
+	
 
-
-
-				);
-
-
+);
 
   
 
