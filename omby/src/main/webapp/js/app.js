@@ -160,14 +160,25 @@ function LawsuitIndexController($scope, LawsuitService)
 															}
 												);		
 	$scope.deleteLawsuitEntry = function(lawsuitEntry) 
-								{
-									lawsuitEntry.$remove(
-													function(){
-																	$scope.lawsuitEntries = LawsuitService.lawsuit.query();
-															  }
-														);
+								{// Delete a lawsuit. Issues a DELETE to /rest/lawsuit/:id
+		  						
+									
+		
+											lawsuitEntry.$delete(
+															function(){
+																			console.log($scope.lawsuitEntries);
+																			$scope.lawsuitEntries = LawsuitService.lawsuit.query();
+																			$scope.names = LawsuitService.lawsuits.list();
+																	  }
+																);
+									
 								};
-};
+	
+						
+								
+								
+								
+}
 function EditLawsuitController($scope, $routeParams, $location, LawsuitService) 
 {
 	$scope.lawsuitEntry = LawsuitService.lawsuit.get({id: $routeParams.id});	
