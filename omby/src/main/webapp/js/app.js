@@ -22,26 +22,6 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 											}
 								);
 			
-			$routeProvider.when('/', {
-													url: '/lawsuit/list',
-													templateUrl: 'partials/index.html',
-													controller: LawsuitIndexController
-													}
-								);
-			
-			$routeProvider.when('/list', {
-													url: '/lawsuit/list',
-													templateUrl: 'partials/index.html',
-													controller: LawsuitIndexController
-													}
-									);
-
-			$routeProvider.when('/lawsuit', {
-													url: '/lawsuit/list',
-													templateUrl: 'partials/index.html',
-													controller: LawsuitIndexController
-													}
-									);
 			$routeProvider.otherwise(		{
 											templateUrl: 'partials/index.html',
 											controller: LawsuitIndexController
@@ -175,7 +155,10 @@ function LawsuitIndexController($scope, LawsuitService)
 														}
 												);	
 	
-	
+	$scope.names = LawsuitService.list(function(){
+		console.log($scope.lawsuitEntries);
+		}
+);		
 	$scope.deleteLawsuitEntry = function(lawsuitEntry) 
 								{
 									lawsuitEntry.$remove(
@@ -240,6 +223,7 @@ function LoginController($scope, $rootScope, $location, $cookieStore, UserServic
 };
 
 
+
 var services = angular.module('ombyApp.services', ['ngResource']);
 
 services.factory('UserService', 
@@ -256,13 +240,33 @@ services.factory('UserService',
 							}
 				);
 
-
+//----------------return $resource('rest/lawsuit/:id', {id: '@id'});
 services.factory('LawsuitService', 
 		function($resource) 
 						{	
-							return $resource('rest/lawsuit/:id', {id: '@id'});
+							return $resource
+							(
+									   'rest/lawsuit/:action',{},
+								        {
+								          list: {
+								            method:'GET', 
+								            params: {'action' : 'list'},
+								        	isArray: true
+								          }
+								        }
+										
+										
+	
+							);
 						}
+
+
+
 				);
+
+
+
+  
 
 
 

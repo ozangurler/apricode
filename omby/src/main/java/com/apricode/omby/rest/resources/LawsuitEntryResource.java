@@ -70,7 +70,6 @@ public class LawsuitEntryResource
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional
-//	@Path("list")
 	public String gluglu() throws JsonGenerationException, JsonMappingException, IOException
 	{
 		this.logger.info("gluglu() of Lawsuits   ----------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -90,6 +89,34 @@ public class LawsuitEntryResource
 		
 		
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Transactional
+	@Path("list")
+	public String list() throws JsonGenerationException, JsonMappingException, IOException
+	{
+		this.logger.info("list() of Lawsuits   ----------------->>>>>>>listlistlist>>>>>>>>>>>>>>>>>>>>>>");
+
+		ObjectWriter viewWriter;
+		if (this.isAdmin()) {
+			viewWriter = this.mapper.writerWithView(JsonViews.Admin.class);
+		} else {
+			viewWriter = this.mapper.writerWithView(JsonViews.User.class);
+		}	
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();		
+		
+		User currentUser = userDao.findByEmail(userDetails.getUsername());	
+		return viewWriter.writeValueAsString(currentUser.getMyLawsuitTransfers());
+		
+		
+	}	
+	
+	
+	
+	
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

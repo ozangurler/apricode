@@ -12,7 +12,7 @@
 
 <p>My Lawsuits</p>
 	
-<div ng-repeat="lawsuitEntry in lawsuitEntries" class="mylawsuits" >
+<div ng-repeat="lawsuitEntry in names" class="mylawsuits" >
 	<div>
 		<a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a>
 		<a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
