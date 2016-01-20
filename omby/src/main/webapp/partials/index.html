@@ -1,6 +1,9 @@
+<br/>
+
 <div class="pull-right">
 	<a href="#!/create" class="btn btn-default" ng-show="hasRole('admin')" title="Create"><span class="glyphicon glyphicon-plus"></span></a>
 </div>
+
 <div class="page-header">
 	<h3>All Lawsuits</h3>
 </div>
@@ -8,9 +11,8 @@
 
 
 
-<div class="mylawsuits" >
-<p>My Lawsuits</p>
-<table ng-table="suerLawsuits"  class="table table-hover">
+<div style="width: 100%">
+ <div style="background-color:#ccbbaa; float: left; width: 50%"><p>My Lawsuits</p><table ng-table="suerLawsuits"  class="table table-hover">
 	<thead>
 		<tr>
 			<th>Lawsuit Id</th>
@@ -27,32 +29,31 @@
 			<td><a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a></td>
 		</tr>
 	</tbody>
-</table>
+</table></div>
+ <div style="background-color:#aabbcc; float: left; width: 50%"><p>Participated Lawsuits</p><table ng-table="suedLawsuits"  class="table table-hover">
+	<thead>
+		<tr>
+			<th>Lawsuit Id</th>
+			<th>Lawsuit Name</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		  <tr ng-repeat="lawsuitEntry in lawsuitEntries">
+			<td>{{lawsuitEntry.id}}</td>
+			<td>{{lawsuitEntry.name}}</td>
+			<td><a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a></td>
+			<td><a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a></td>
+		</tr>
+	</tbody>
+</table></div>
+ <br style="clear: left;" />
 </div>
 
-	
-<div class="participatedlawsuits" >
-<p>Participated Lawsuits</p>
-<table ng-table="suedLawsuits"  class="table table-hover">
-	<thead>
-		<tr>
-			<th>Lawsuit Id</th>
-			<th>Lawsuit Name</th>
-			<th>Edit</th>
-			<th>Delete</th>
-		</tr>
-	</thead>
-	<tbody>
-		  <tr ng-repeat="lawsuitEntry in lawsuitEntries">
-			<td>{{lawsuitEntry.id}}</td>
-			<td>{{lawsuitEntry.name}}</td>
-			<td><a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a></td>
-			<td><a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a></td>
-		</tr>
-	</tbody>
-</table>
-</div>		
-	
 
+
+
+	
 
 
