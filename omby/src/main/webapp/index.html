@@ -7,14 +7,7 @@
 </head>
 <body>
 
-	<script src="js/jquery-2.0.2.js"></script>
-	<script src="js/bootstrap-3.1.1.min.js"></script>
-	<script src="js/angular-1.2.3.js"></script>
-	<script src="js/angular-resource-1.2.3.js"></script>
-	<script src="js/angular-route-1.2.3.js"></script>
-	<script src="js/angular-cookies-1.2.3.js"></script>
-	<script src="js/config.js"></script>
-	<script src="js/app.js"></script>
+
 
 	<div class="loader" ng-hide="initialized">
 		Loading All Of Your Lawsuits ...
@@ -60,9 +53,16 @@
 
 	<div class="container" ng-show="initialized">
 		<div class="alert alert-danger" ng-show="error">{{error}}</div>
-		<div ng-view class="centerDiv"></div>
+		<div ng-view class="container"></div>
 	</div>
-	
+	<script src="js/jquery-2.0.2.js"></script>
+	<script src="js/bootstrap-3.1.1.min.js"></script>
+	<script src="js/angular-1.2.3.js"></script>
+	<script src="js/angular-resource-1.2.3.js"></script>
+	<script src="js/angular-route-1.2.3.js"></script>
+	<script src="js/angular-cookies-1.2.3.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>	
 
 </body>
 </html>

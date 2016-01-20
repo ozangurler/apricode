@@ -8,25 +8,51 @@
 
 
 
-
-
+<div class="mylawsuits" >
 <p>My Lawsuits</p>
+<table ng-table="suerLawsuits"  class="table table-hover">
+	<thead>
+		<tr>
+			<th>Lawsuit Id</th>
+			<th>Lawsuit Name</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		  <tr ng-repeat="lawsuitEntry in lawsuitEntries">
+			<td>{{lawsuitEntry.id}}</td>
+			<td>{{lawsuitEntry.name}}</td>
+			<td><a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a></td>
+			<td><a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
 	
-<div ng-repeat="lawsuitEntry in names" class="mylawsuits" >
-	<div>
-		<a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a>
-		<a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
-	</div>
-	<h4 color="blue"  >{{lawsuitEntry.id}}  {{lawsuitEntry.name}}</h4>
-</div>
+<div class="participatedlawsuits" >
+<p>Participated Lawsuits</p>
+<table ng-table="suedLawsuits"  class="table table-hover">
+	<thead>
+		<tr>
+			<th>Lawsuit Id</th>
+			<th>Lawsuit Name</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		  <tr ng-repeat="lawsuitEntry in lawsuitEntries">
+			<td>{{lawsuitEntry.id}}</td>
+			<td>{{lawsuitEntry.name}}</td>
+			<td><a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a></td>
+			<td><a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a></td>
+		</tr>
+	</tbody>
+</table>
+</div>		
+	
 
 
-<p>Participated Lawsuits</p>	
-<div ng-repeat="lawsuitEntry in lawsuitEntries" class="participatedlawsuits" >
-	<div>
-		<a href="" ng-click="deleteLawsuitEntry(lawsuitEntry)" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="delete"><span class="glyphicon glyphicon-trash"></span></a>
-		<a href="#!/edit/{{lawsuitEntry.id}}" class="btn btn-xs btn-default" ng-show="hasRole('admin')" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
-	</div>
-	<h4 color="blue"  >{{lawsuitEntry.id}}  {{lawsuitEntry.name}}</h4>
-</div>
 
