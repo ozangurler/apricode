@@ -13,13 +13,24 @@
 
 <div class="centerDiv">
 
+<div class="leftDiv">
+<br/>
+<a href="javascript:" class="btn btn-info" style="width: 95%;" ng-click="STab(1)">My Dashboard</a>
+<a href="javascript:" class="btn btn-info" style="width: 95%;" ng-click="STab(2)">Case List</a>
+<a href="javascript:" class="btn btn-info" style="width: 95%;" ng-click="STab(3)">Hall of Fame</a>
+<a href="javascript:" class="btn btn-info" style="width: 95%; " ng-click="STab(4)">Personal Details</a>
+
+</div>
+
+
+<div class="rightDiv">
+
 <a href="javascript:" class="btn btn-info" ng-click="STab(1)"> Active Cases</a>
 <a href="javascript:" class="btn btn-info" ng-click="STab(2)"> My Stats</a>
 <a href="javascript:" class="btn btn-info" ng-click="STab(3)"> Notifications</a>
 
 <div class="tab" ng-show="ATab(1)">
-<h1>My Lawsuits</h1>
- <div class="leftDiv"><p>My Lawsuits</p><table ng-table="suerLawsuits"  class="table table-hover">
+ <div class="myDiv"><p>My Lawsuits</p><table ng-table="suerLawsuits"  class="table table-hover">
 	<thead>
 		<tr>
 			<th>Lawsuit Id</th>
@@ -37,7 +48,7 @@
 		</tr>
 	</tbody>
 </table></div>
- <div class="rightDiv"><p>Participated Lawsuits</p><table ng-table="suedLawsuits"  class="table table-hover">
+ <div class="participatedDiv"><p>Participated Lawsuits</p><table ng-table="suedLawsuits"  class="table table-hover">
 	<thead>
 		<tr>
 			<th>Lawsuit Id</th>
@@ -68,6 +79,8 @@ loremfglkerjgkefj
  </div>
 
 
+
+</div>
 </div>
 
 

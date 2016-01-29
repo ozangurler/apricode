@@ -30,17 +30,28 @@ ng-hide {
 	width: 100%
 }
 
-.tab
-{
-	width: 100%;
-	height: 300px;
-	border: 1px solid #dddddd;
-}
 
 .leftDiv {
-background-color:#eebbaa; float: left; width: 50%
+background-color:#ddd;  float: left; width: 15%; 
 }
 
 .rightDiv {
-background-color:#aabbee; float: left; width: 50%
+background-color:#eee; float: left; width: 85%
+}
+
+
+
+.tab
+{
+	width: 100%;
+	height: 500px;
+	border: 1px solid #dddddd;
+}
+
+.myDiv {
+background-color:#eebbaa; float: left; width: 44%
+}
+
+.participatedDiv {
+background-color:#aabbee; float: left; width: 44%
 }
