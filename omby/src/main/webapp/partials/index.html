@@ -11,8 +11,15 @@
 
 
 
-<div style="width: 100%">
- <div style="background-color:#ccbbaa; float: left; width: 50%"><p>My Lawsuits</p><table ng-table="suerLawsuits"  class="table table-hover">
+<div class="centerDiv">
+
+<a href="javascript:" class="btn btn-info" ng-click="STab(1)"> Active Cases</a>
+<a href="javascript:" class="btn btn-info" ng-click="STab(2)"> My Stats</a>
+<a href="javascript:" class="btn btn-info" ng-click="STab(3)"> Notifications</a>
+
+<div class="tab" ng-show="ATab(1)">
+<h1>My Lawsuits</h1>
+ <div class="leftDiv"><p>My Lawsuits</p><table ng-table="suerLawsuits"  class="table table-hover">
 	<thead>
 		<tr>
 			<th>Lawsuit Id</th>
@@ -30,7 +37,7 @@
 		</tr>
 	</tbody>
 </table></div>
- <div style="background-color:#aabbcc; float: left; width: 50%"><p>Participated Lawsuits</p><table ng-table="suedLawsuits"  class="table table-hover">
+ <div class="rightDiv"><p>Participated Lawsuits</p><table ng-table="suedLawsuits"  class="table table-hover">
 	<thead>
 		<tr>
 			<th>Lawsuit Id</th>
@@ -49,6 +56,18 @@
 	</tbody>
 </table></div>
  <br style="clear: left;" />
+
+</div>
+<div class="tab" ng-show="ATab(2)">
+<h1>icerik 2 </h1>
+loremfglkerjgkefj
+ </div>
+<div class="tab" ng-show="ATab(3)">
+<h1>icerik 3 </h1>
+loremfglkerjgkefj
+ </div>
+
+
 </div>
 
 

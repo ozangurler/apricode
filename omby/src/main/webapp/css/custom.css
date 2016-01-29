@@ -27,26 +27,20 @@ ng-hide {
 
 .centerDiv
 {
-	width: 1000px;
-	margin: 0 auto; 
-	background-color:#FFcccc;
-	font-weight: bold;
-	color:#fff;
+	width: 100%
 }
 
-.mylawsuits {
- 	width: 50%;  
-	text-align: center;	
-	font-weight: bold;
-	color:#fff;
-	background-color:#428b21;
+.tab
+{
+	width: 100%;
+	height: 300px;
+	border: 1px solid #dddddd;
 }
 
-.participatedlawsuits {
-	width: 50%;   
-	float:right; 		
-	text-align: center;	
-	font-weight: bold;
-	color:#fff;
-	background-color:#fc8b21;
+.leftDiv {
+background-color:#eebbaa; float: left; width: 50%
+}
+
+.rightDiv {
+background-color:#aabbee; float: left; width: 50%
 }

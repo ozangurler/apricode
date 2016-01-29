@@ -150,6 +150,14 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 
 function LawsuitIndexController($scope, LawsuitService) 
 {	
+	$scope.tab = 1;
+	
+	$scope.STab= function(res){
+		$scope.tab = res;
+	}
+	$scope.ATab= function(res){
+		return $scope.tab === res;
+	}
 	$scope.lawsuitEntries = LawsuitService.lawsuit.query(function(){
 														console.log($scope.lawsuitEntries);
 														}
