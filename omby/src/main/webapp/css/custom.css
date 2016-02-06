@@ -49,9 +49,14 @@ background-color:#eee; float: left; width: 85%
 }
 
 .myDiv {
-background-color:#eebbaa; float: left; width: 44%
+background-color:#eebbaa; float: left; width: 40%
 }
 
 .participatedDiv {
-background-color:#aabbee; float: left; width: 44%
+background-color:#aabbee; float: left; width: 40%
 }
+
+.liveDiv {
+background-color:#35fdda; float: left; width: 20%; height: 350px;
+}
+
