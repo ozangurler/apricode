@@ -10,6 +10,18 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 											}
 								);
 			
+			
+			$routeProvider.when('/dashboard', {
+				templateUrl: 'partials/dashboard.html',
+				controller: LawsuitIndexController
+											}
+								);
+			$routeProvider.when('/home', {
+				templateUrl: 'partials/index.html',
+				controller: LawsuitIndexController
+				}
+								);
+			
 			$routeProvider.when('/edit/:id', {
 											templateUrl: 'partials/edit.html',
 											controller: EditLawsuitController
@@ -154,6 +166,7 @@ function LawsuitIndexController($scope, LawsuitService)
 	
 	$scope.STab= function(res){
 		$scope.tab = res;
+		return true;
 	}
 	$scope.ATab= function(res){
 		return $scope.tab === res;
