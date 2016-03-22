@@ -14,24 +14,23 @@
 <div class="centerDiv">
 
 <div class="leftDiv">
-<br/>
-
-
-<a href="#!/dashboard" class="btn btn-info" style="width: 95%;"   >My Dashboard</a>
-<a href="#!/home" class="btn btn-info" style="width: 95%;"   >Case List</a>
-<a href="javascript:" class="btn btn-info" style="width: 95%;" ng-click="STab(3)">Hall of Fame</a>
-<a href="javascript:" class="btn btn-info" style="width: 95%;" ng-click="STab(4)">Personal Details</a>
-
+	<br/>
+	<a href="#!/home" ng-class="ColorTab(1)" style="width: 95%;"                           >My Dashboard</a>
+	<br/>
+	<a href="#!/halloffame"  ng-class="ColorTab(2)" style="width: 95%;" ng-click="STab(2)" >Hall of Fame</a>
+	<br/>
+	<a href="#!/personal"  ng-class="ColorTab(3)" style="width: 95%;" ng-click="STab(3)"   >Personal Details</a>
+	<br/>
 </div>
 
 
 <div class="rightDiv">
 
-<a href="javascript:" class="btn btn-info" ng-click="STab(1)"> Active Cases</a>
-<a href="javascript:" class="btn btn-info" ng-click="STab(2)"> My Stats</a>
-<a href="javascript:" class="btn btn-info" ng-click="STab(3)"> Notifications</a>
+<a href="javascript:"   ng-class="ColorTab(1)"  ng-click="STab(1)"> Active Cases</a>
+<a href="javascript:"   ng-class="ColorTab(2)"  ng-click="STab(2)"> My Stats</a>
+<a href="javascript:"   ng-class="ColorTab(3)" ng-click="STab(3)"> Notifications</a>
 
-<div class="tab" ng-show="ATab(1)">
+<div class="tab"  ng-show="ATab(1)">
  <div class="myDiv"><p>My Lawsuits</p><table ng-table="suerLawsuits"  class="table table-hover">
 	<thead>
 		<tr>
@@ -76,12 +75,12 @@
 <h1>Dashboard 2 </h1>
 loremfglkerjgkefj
  </div>
-<div class="tab" ng-show="ATab(3)">
+<div class="tab"  ng-show="ATab(3)">
 <h1>icerik 3 </h1>
 loremfglkerjgkefj
  </div>
 
-<div class="tab" ng-show="ATab(4)">
+<div class="tab"  ng-show="ATab(4)">
 <h1>icerik 4 </h1>
 loremfglkerjgkefj
  </div>

@@ -5,38 +5,44 @@ angular.module('ombyApp', ['ngRoute', 'ngCookies', 'ombyApp.services'])
 		  function($routeProvider, $locationProvider, $httpProvider) 
 		  {			
 			$routeProvider.when('/create', {
-											templateUrl: 'partials/create.html',
-											controller: CreateLawsuitController
+				templateUrl: 'partials/create.html',
+				controller: CreateLawsuitController
 											}
 								);
-			
-			
-			$routeProvider.when('/dashboard', {
-				templateUrl: 'partials/dashboard.html',
+
+			$routeProvider.when('/halloffame', {
+				templateUrl: 'partials/halloffame.html',
 				controller: LawsuitIndexController
 											}
 								);
+
+			$routeProvider.when('/personal', {
+				templateUrl: 'partials/personal.html',
+				controller: LawsuitIndexController
+											}
+								);			
+
 			$routeProvider.when('/home', {
 				templateUrl: 'partials/index.html',
 				controller: LawsuitIndexController
-				}
+										}
 								);
 			
 			$routeProvider.when('/edit/:id', {
-											templateUrl: 'partials/edit.html',
-											controller: EditLawsuitController
+				templateUrl: 'partials/edit.html',
+				controller: EditLawsuitController
 											}
 								);
 
 			$routeProvider.when('/login', {
-											templateUrl: 'partials/login.html',
-											controller: LoginController
+				templateUrl: 'partials/login.html',
+				controller: LoginController
 											}
 								);
 			
 			$routeProvider.otherwise(		{
-											templateUrl: 'partials/index.html',
-											controller: LawsuitIndexController
+				templateUrl: 'partials/index.html',
+				controller: LawsuitIndexController
 											}
 									);
 			
@@ -168,9 +174,19 @@ function LawsuitIndexController($scope, LawsuitService)
 		$scope.tab = res;
 		return true;
 	}
+	
+	
 	$scope.ATab= function(res){
 		return $scope.tab === res;
 	}
+	
+	$scope.ColorTab= function(res){
+		if ( $scope.tab === res)
+			return "btn btn-primary btn-lg selected";
+		else
+			return "btn btn-primary btn-lg";
+	}
+	
 	$scope.lawsuitEntries = LawsuitService.lawsuit.query(function(){
 														console.log($scope.lawsuitEntries);
 														}
