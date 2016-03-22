@@ -15,18 +15,18 @@
 
 <div class="leftDiv">
 <br/>
-<a href="#!/home" class="btn btn-info" style="width: 95%;"   >My Dashboard</a>
-<a href="#!/halloffame" class="btn btn-info" style="width: 95%;" ng-click="STab(3)">Hall of Fame</a>
-<a href="javascript:" class="btn btn-info" style="width: 95%; " ng-click="STab(4)">Personal Details</a>
+<a href="#!/home"  ng-class="ColorTab(1)" style="width: 95%;"   >My Dashboard</a>
+<a href="#!/halloffame"  ng-class="ColorTab(2)" style="width: 95%;" ng-click="STab(3)">Hall of Fame</a>
+<a href="javascript:"  ng-class="ColorTab(3)" style="width: 95%; " ng-click="STab(4)">Personal Details</a>
 
 </div>
 
 
 <div class="rightDiv">
 
-<a href="javascript:" class="btn btn-info" ng-click="STab(1)"> Active Cases</a>
-<a href="javascript:" class="btn btn-info" ng-click="STab(2)"> My Stats</a>
-<a href="javascript:" class="btn btn-info" ng-click="STab(3)"> Notifications</a>
+<a href="javascript:" ng-class="ColorTab(1)" ng-click="STab(1)"> Active Cases</a>
+<a href="javascript:" ng-class="ColorTab(2)" ng-click="STab(2)"> My Stats</a>
+<a href="javascript:" ng-class="ColorTab(3)" ng-click="STab(3)"> Notifications</a>
 
 <div class="tab" ng-show="ATab(1)">
  <div class="myDiv"><p>My Lawsuits</p><table ng-table="suerLawsuits"  class="table table-hover">
